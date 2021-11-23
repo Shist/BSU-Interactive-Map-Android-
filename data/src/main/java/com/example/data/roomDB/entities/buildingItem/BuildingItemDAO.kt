@@ -31,7 +31,7 @@ interface BuildingItemDAO {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOneItem(item: BuildingItemDB): Long {
+    suspend fun insertOneBuildingItem(item: BuildingItemDB): Long {
         val resultValue = insertBuildingItemEntityDB(item.buildingItemEntityDB)
         insertStructuralObjectEntities(item.structuralObjectEntities)
         insertAddressItemEntityDB(item.address)
@@ -40,15 +40,15 @@ interface BuildingItemDAO {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertItemsList(items: List<BuildingItemDB>) {
+    suspend fun insertBuildingItemsList(items: List<BuildingItemDB>) {
         for (bi: BuildingItemDB in items) {
-            insertOneItem(bi)
+            insertOneBuildingItem(bi)
         }
     }
 
     @Transaction
     @Update
-    suspend fun updateOneItem(item: BuildingItemDB) {
+    suspend fun updateOneBuildingItem(item: BuildingItemDB) {
         updateBuildingItemEntityDB(item.buildingItemEntityDB)
         updateStructuralObjectEntities(item.structuralObjectEntities)
         updateAddressItemEntityDB(item.address)
@@ -56,15 +56,15 @@ interface BuildingItemDAO {
 
     @Transaction
     @Update
-    suspend fun updateAllItems(items: List<BuildingItemDB>) {
+    suspend fun updateAllBuildingItems(items: List<BuildingItemDB>) {
         for (bi: BuildingItemDB in items) {
-            updateOneItem(bi)
+            updateOneBuildingItem(bi)
         }
     }
 
     @Transaction
     @Delete
-    suspend fun deleteOneItem(item: BuildingItemDB, deleteChildLocations: Boolean) {
+    suspend fun deleteOneBuildingItem(item: BuildingItemDB, deleteChildLocations: Boolean) {
         if (deleteChildLocations) {
             deleteStructuralObjectEntities(item.structuralObjectEntities)
             deleteAddressItemEntityDB(item.address)
@@ -74,18 +74,18 @@ interface BuildingItemDAO {
 
     @Transaction
     @Delete
-    suspend fun deleteAllItems(items: List<BuildingItemDB>, deleteChildLocations: Boolean) {
+    suspend fun deleteAllBuildingItems(items: List<BuildingItemDB>, deleteChildLocations: Boolean) {
         for (bi: BuildingItemDB in items) {
-            deleteOneItem(bi, deleteChildLocations)
+            deleteOneBuildingItem(bi, deleteChildLocations)
         }
     }
 
     @Transaction
     @Query("SELECT * FROM buildings ORDER BY id")
-    fun getAllItems(): Flow<List<BuildingItemDB>>
+    fun getAllBuildingItems(): Flow<List<BuildingItemDB>>
 
     @Transaction
     @Query("SELECT * FROM buildings WHERE id = :neededId")
-    fun getItemById(neededId: String): Flow<BuildingItemDB>
+    fun getBuildingItemById(neededId: String): Flow<BuildingItemDB>
 
 }

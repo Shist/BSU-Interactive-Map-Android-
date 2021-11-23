@@ -23,7 +23,7 @@ interface StructuralObjectItemDAO {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOneItem(item: StructuralObjectItemDB): Long {
+    suspend fun insertOneStructuralObjectItem(item: StructuralObjectItemDB): Long {
         val resultValue = insertStructuralObjectItemEntityDB(item.structuralItemsEntityDB)
         insertIconItemEntityDB(item.icon)
         return resultValue
@@ -31,30 +31,30 @@ interface StructuralObjectItemDAO {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertItemsList(items: List<StructuralObjectItemDB>) {
+    suspend fun insertStructuralObjectItemsList(items: List<StructuralObjectItemDB>) {
         for (soi: StructuralObjectItemDB in items) {
-            insertOneItem(soi)
+            insertOneStructuralObjectItem(soi)
         }
     }
 
     @Transaction
     @Update
-    suspend fun updateOneItem(item: StructuralObjectItemDB) {
+    suspend fun updateOneStructuralObjectItem(item: StructuralObjectItemDB) {
         updateStructuralObjectItemEntityDB(item.structuralItemsEntityDB)
         updateIconItemEntityDB(item.icon)
     }
 
     @Transaction
     @Update
-    suspend fun updateAllItems(items: List<StructuralObjectItemDB>) {
+    suspend fun updateAllStructuralObjectItems(items: List<StructuralObjectItemDB>) {
         for (soi: StructuralObjectItemDB in items) {
-            updateOneItem(soi)
+            updateOneStructuralObjectItem(soi)
         }
     }
 
     @Transaction
     @Delete
-    suspend fun deleteOneItem(item: StructuralObjectItemDB, deleteChildLocations: Boolean) {
+    suspend fun deleteOneStructuralObjectItem(item: StructuralObjectItemDB, deleteChildLocations: Boolean) {
         if (deleteChildLocations) {
             deleteIconItemEntityDB(item.icon)
         }
@@ -63,18 +63,18 @@ interface StructuralObjectItemDAO {
 
     @Transaction
     @Delete
-    suspend fun deleteAllItems(items: List<StructuralObjectItemDB>, deleteChildLocations: Boolean) {
+    suspend fun deleteAllStructuralObjectItems(items: List<StructuralObjectItemDB>, deleteChildLocations: Boolean) {
         for (soi: StructuralObjectItemDB in items) {
-            deleteOneItem(soi, deleteChildLocations)
+            deleteOneStructuralObjectItem(soi, deleteChildLocations)
         }
     }
 
     @Transaction
     @Query("SELECT * FROM structuralObjects ORDER BY id")
-    fun getAllItems(): Flow<List<StructuralObjectItemDB>>
+    fun getAllStructuralObjectItems(): Flow<List<StructuralObjectItemDB>>
 
     @Transaction
     @Query("SELECT * FROM structuralObjects WHERE id = :neededId")
-    fun getItemById(neededId: String): Flow<StructuralObjectItemDB>
+    fun getStructuralObjectItemById(neededId: String): Flow<StructuralObjectItemDB>
 
 }

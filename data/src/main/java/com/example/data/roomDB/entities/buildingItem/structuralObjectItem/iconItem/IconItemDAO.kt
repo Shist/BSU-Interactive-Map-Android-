@@ -7,27 +7,27 @@ import kotlinx.coroutines.flow.Flow
 interface IconItemDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOneItem(item: IconItemEntityDB)
+    suspend fun insertOneIconItem(item: IconItemEntityDB)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertItemsList(items: List<IconItemEntityDB>)
+    suspend fun insertIconItemsList(items: List<IconItemEntityDB>)
 
     @Update
-    suspend fun updateOneItem(item: IconItemEntityDB)
+    suspend fun updateOneIconItem(item: IconItemEntityDB)
 
     @Update
-    suspend fun updateAllItems(items: List<IconItemEntityDB>)
+    suspend fun updateAllIconItems(items: List<IconItemEntityDB>)
 
     @Delete
-    suspend fun deleteOneItem(item: IconItemEntityDB)
+    suspend fun deleteOneIconItem(item: IconItemEntityDB)
 
     @Delete
-    suspend fun deleteAllItems(items: List<IconItemEntityDB>)
+    suspend fun deleteAllIconItems(items: List<IconItemEntityDB>)
 
     @Query("SELECT * FROM icons ORDER BY id")
-    fun getAllItems(): Flow<List<IconItemEntityDB>>
+    fun getAllIconItems(): Flow<List<IconItemEntityDB>>
 
     @Query("SELECT * FROM icons WHERE id = :neededId")
-    fun getItemById(neededId: String): Flow<IconItemEntityDB>
+    fun getIconItemById(neededId: String): Flow<IconItemEntityDB>
 
 }

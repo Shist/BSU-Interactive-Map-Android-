@@ -7,27 +7,27 @@ import kotlinx.coroutines.flow.Flow
 interface AddressItemDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOneItem(item: AddressItemEntityDB)
+    suspend fun insertOneAddressItem(item: AddressItemEntityDB)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertItemsList(items: List<AddressItemEntityDB>)
+    suspend fun insertAddressItemsList(items: List<AddressItemEntityDB>)
 
     @Update
-    suspend fun updateOneItem(item: AddressItemEntityDB)
+    suspend fun updateOneAddressItem(item: AddressItemEntityDB)
 
     @Update
-    suspend fun updateAllItems(items: List<AddressItemEntityDB>)
+    suspend fun updateAllAddressItems(items: List<AddressItemEntityDB>)
 
     @Delete
-    suspend fun deleteOneItem(item: AddressItemEntityDB)
+    suspend fun deleteOneAddressItem(item: AddressItemEntityDB)
 
     @Delete
-    suspend fun deleteAllItems(items: List<AddressItemEntityDB>)
+    suspend fun deleteAllAddressItems(items: List<AddressItemEntityDB>)
 
     @Query("SELECT * FROM addresses ORDER BY id")
-    fun getAllItems(): Flow<List<AddressItemEntityDB>>
+    fun getAllAddressItems(): Flow<List<AddressItemEntityDB>>
 
     @Query("SELECT * FROM addresses WHERE id = :neededId")
-    fun getItemById(neededId: String): Flow<AddressItemEntityDB>
+    fun getAddressItemById(neededId: String): Flow<AddressItemEntityDB>
 
 }
