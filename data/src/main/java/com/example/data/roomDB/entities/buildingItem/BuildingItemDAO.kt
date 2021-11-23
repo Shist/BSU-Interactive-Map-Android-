@@ -1,31 +1,25 @@
 package com.example.data.roomDB.entities.buildingItem
 
 import androidx.room.*
+import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemDAO
 import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemEntityDB
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemDAO
-import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemDB
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface BuildingItemDAO {
+interface BuildingItemDAO : StructuralObjectItemDAO, AddressItemDAO {
 
     // This operations are needed for entities. We'll use it in more difficult queries
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB): Long
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStructuralObjectEntities(structuralObjectEntities: List<StructuralObjectItemDB?>?): List<Long>
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAddressItemEntityDB(address: AddressItemEntityDB?): Long
     @Update
     fun updateBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB)
     @Update
-    fun updateStructuralObjectEntities(structuralObjectEntities: List<StructuralObjectItemDB?>?)
-    @Update
     fun updateAddressItemEntityDB(address: AddressItemEntityDB?)
     @Delete
     fun deleteBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB)
-    @Delete
-    fun deleteStructuralObjectEntities(structuralObjectEntities: List<StructuralObjectItemDB?>?)
     @Delete
     fun deleteAddressItemEntityDB(address: AddressItemEntityDB?)
 
@@ -33,7 +27,7 @@ interface BuildingItemDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOneBuildingItem(item: BuildingItemDB): Long {
         val resultValue = insertBuildingItemEntityDB(item.buildingItemEntityDB)
-        insertStructuralObjectEntities(item.structuralObjectEntities)
+        insertStructuralObjectItemsList(item.structuralObjectEntities)
         insertAddressItemEntityDB(item.address)
         return resultValue
     }
@@ -50,7 +44,7 @@ interface BuildingItemDAO {
     @Update
     suspend fun updateOneBuildingItem(item: BuildingItemDB) {
         updateBuildingItemEntityDB(item.buildingItemEntityDB)
-        updateStructuralObjectEntities(item.structuralObjectEntities)
+        updateAllStructuralObjectItems(item.structuralObjectEntities)
         updateAddressItemEntityDB(item.address)
     }
 
@@ -66,7 +60,7 @@ interface BuildingItemDAO {
     @Delete
     suspend fun deleteOneBuildingItem(item: BuildingItemDB, deleteChildLocations: Boolean) {
         if (deleteChildLocations) {
-            deleteStructuralObjectEntities(item.structuralObjectEntities)
+            deleteAllStructuralObjectItems(item.structuralObjectEntities, deleteChildLocations)
             deleteAddressItemEntityDB(item.address)
         }
         deleteBuildingItemEntityDB(item.buildingItemEntityDB)

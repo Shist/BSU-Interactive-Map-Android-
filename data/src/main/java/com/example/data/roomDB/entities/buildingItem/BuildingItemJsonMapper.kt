@@ -25,12 +25,12 @@ class BuildingItemJsonMapper {
                 markerPath = itemJson.type!!.markerPath
             }
 
-            val structuralObjects: List<StructuralObjectItemDB?>? =
+            val structuralObjects: List<StructuralObjectItemDB>? =
                 if (itemJson.structuralObjects == null) {
                     null
                 } else {
                     itemJson.structuralObjects
-                        .map { StructuralObjectItemJsonMapper().fromJsonToRoomDB(it) }
+                        .map { StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!! }
                 }
 
             return BuildingItemDB(BuildingItemEntityDB(itemJson.id!!,
@@ -39,8 +39,9 @@ class BuildingItemJsonMapper {
                     itemJson.isModern.toBoolean(),
                     type,
                     markerPath),
-                structuralObjects,
-                AddressItemJsonMapper().fromJsonToRoomDB(itemJson.address, itemJson.id))
+                structuralObjects!!,
+                AddressItemJsonMapper().fromJsonToRoomDB(itemJson.address, itemJson.id)!!
+            )
         }
     }
 

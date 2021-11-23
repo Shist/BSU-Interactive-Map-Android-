@@ -4,6 +4,7 @@ import androidx.room.*
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemEntityDB
 
 data class StructuralObjectItemDB(
+
     @Embedded
     val structuralItemsEntityDB: StructuralObjectItemEntityDB,
 
@@ -14,6 +15,6 @@ data class StructuralObjectItemDB(
         parentColumn = "id",
         entityColumn = "structuralObjectItemId"
     )
-    val icon: IconItemEntityDB?,
+    val icon: IconItemEntityDB,
 
     )
