@@ -9,12 +9,12 @@ import org.koin.core.component.inject
 class UploadWorker(appContext: Context, workerParams: WorkerParameters):
     CoroutineWorker(appContext, workerParams), KoinComponent {
 
-    private val newsRepository: DataRepository by inject()
+    private val dataRepository: DataRepository by inject()
 
     override suspend fun doWork(): Result {
 
         try {
-            newsRepository.loadData()
+            dataRepository.loadData()
         } catch (e: Throwable) {
             return Result.failure()
         }

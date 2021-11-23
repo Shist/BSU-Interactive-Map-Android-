@@ -6,6 +6,6 @@ interface DataRepository {
 
     suspend fun loadData()
 
-    //TODO
+    fun getItems(): Flow<List<BuildingItem>>
 
 }
