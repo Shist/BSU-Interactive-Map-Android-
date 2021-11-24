@@ -17,6 +17,9 @@ data class IconItemEntityDB(
     val subdivision: String?,
 
     @ColumnInfo(name = "logoPath")
-    val logoPath: String?
+    val logoPath: String?,
+
+    @ColumnInfo(name = "buildingItemId")
+    val buildingItemId: String?,
 
 )

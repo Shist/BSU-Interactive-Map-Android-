@@ -4,7 +4,8 @@ import com.example.data.model.StructuralObjectItemIconJson
 
 class IconItemJsonMapper {
 
-    fun fromJsonToRoomDB(itemJson: StructuralObjectItemIconJson?, structuralObjectItemId: String?) : IconItemEntityDB?
+    fun fromJsonToRoomDB(itemJson: StructuralObjectItemIconJson?, structuralObjectItemId: String?,
+                         buildingItemId: String?) : IconItemEntityDB?
     {
         return if (itemJson == null) {
             null
@@ -12,7 +13,8 @@ class IconItemJsonMapper {
             IconItemEntityDB(itemJson.structuralObjectId!!,
                 structuralObjectItemId,
                 itemJson.subdivision,
-                itemJson.logoPath)
+                itemJson.logoPath,
+                buildingItemId)
         }
     }
 

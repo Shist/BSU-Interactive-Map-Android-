@@ -2,7 +2,6 @@ package com.example.data.roomDB.entities.buildingItem
 
 import com.example.data.model.BuildingItemJson
 import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemJsonMapper
-import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemDB
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemJsonMapper
 
 class BuildingItemJsonMapper {
@@ -25,13 +24,15 @@ class BuildingItemJsonMapper {
                 markerPath = itemJson.type!!.markerPath
             }
 
-            val structuralObjects: List<StructuralObjectItemDB>? =
-                if (itemJson.structuralObjects == null) {
-                    null
-                } else {
-                    itemJson.structuralObjects
-                        .map { StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!! }
-                }
+            val structuralObjectsJson = itemJson.structuralObjects
+
+            val structuralObjectsDB =
+                structuralObjectsJson?.map {
+                    StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!!.structuralItemsEntityDB }
+
+            val iconsDB =
+                structuralObjectsJson?.map {
+                    StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!!.icon }
 
             return BuildingItemDB(BuildingItemEntityDB(itemJson.id!!,
                     itemJson.inventoryUsrreNumber,
@@ -39,7 +40,8 @@ class BuildingItemJsonMapper {
                     itemJson.isModern.toBoolean(),
                     type,
                     markerPath),
-                structuralObjects!!,
+                structuralObjectsDB!!,
+                iconsDB!!,
                 AddressItemJsonMapper().fromJsonToRoomDB(itemJson.address, itemJson.id)!!
             )
         }

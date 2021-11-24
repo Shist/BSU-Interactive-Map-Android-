@@ -1,26 +1,32 @@
 package com.example.data.roomDB.entities.buildingItem.structuralObjectItem
 
 import androidx.room.*
-import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemDAO
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemEntityDB
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface StructuralObjectItemDAO : IconItemDAO {
+interface StructuralObjectItemDAO {
 
     // This operations are needed for entities. We'll use it in more difficult queries
+    // =================================
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB): Long
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertIconItemEntityDB(icon: IconItemEntityDB?): Long
+
     @Update
     fun updateStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
+
     @Update
     fun updateIconItemEntityDB(icon: IconItemEntityDB?)
+
     @Delete
     fun deleteStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
+
     @Delete
     fun deleteIconItemEntityDB(icon: IconItemEntityDB?)
+    // =================================
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

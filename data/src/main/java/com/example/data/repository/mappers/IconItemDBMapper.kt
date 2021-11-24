@@ -15,15 +15,4 @@ class IconItemDBMapper {
         }
     }
 
-    fun fromDomainToDB(item: IconItem?, structuralObjectItemId: String?) : IconItemEntityDB? {
-        return if (item == null) {
-            null
-        } else {
-            IconItemEntityDB(item.id,
-                structuralObjectItemId,
-                item.subdivision,
-                item.logoPath)
-        }
-    }
-
 }

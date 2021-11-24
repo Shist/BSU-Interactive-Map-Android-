@@ -19,8 +19,8 @@ data class StructuralObjectItemEntityDB(
     @ColumnInfo(name = "website")
     val website: String?,
 
-    @ColumnInfo(name = "buildingId")
-    val buildingId: String?,
+    @ColumnInfo(name = "buildingItemId")
+    val buildingItemId: String?,
 
     @ColumnInfo(name = "category")
     val category: String?,

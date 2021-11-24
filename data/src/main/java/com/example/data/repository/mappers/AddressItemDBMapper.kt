@@ -16,16 +16,4 @@ class AddressItemDBMapper {
         }
     }
 
-    fun fromDomainToDB(item: AddressItem?, buildingItemId: String?) : AddressItemEntityDB? {
-        return if (item == null) {
-            null
-        } else {
-            AddressItemEntityDB(item.id,
-                buildingItemId,
-                item.description,
-                item.latitude,
-                item.longitude)
-        }
-    }
-
 }

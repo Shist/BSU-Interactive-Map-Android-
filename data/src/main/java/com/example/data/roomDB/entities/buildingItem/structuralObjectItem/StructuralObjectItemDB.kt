@@ -5,16 +5,17 @@ import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconIt
 
 data class StructuralObjectItemDB(
 
+    // This class is needed for getItems() method in StructuralObjectItemDAO
+    // This is a combination of StructuralObjectItemEntity table and IconItemEntityDB
+    // This class can only be used in SELECT queries, not in INSERT, UPDATE, DELETE
+
     @Embedded
     val structuralItemsEntityDB: StructuralObjectItemEntityDB,
-
-    @ColumnInfo(name = "buildingItemId")
-    val buildingItemId: String?,
 
     @Relation(
         parentColumn = "id",
         entityColumn = "structuralObjectItemId"
     )
-    val icon: IconItemEntityDB,
+    val icon: IconItemEntityDB
 
-    )
+)

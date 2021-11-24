@@ -23,8 +23,8 @@ class StructuralObjectItemJsonMapper {
                     itemJson.website,
                     itemJson.buildingId,
                     categoryName),
-                itemJson.buildingId,
-                IconItemJsonMapper().fromJsonToRoomDB(itemJson.icon, itemJson.id)!!
+                IconItemJsonMapper()
+                    .fromJsonToRoomDB(itemJson.icon, itemJson.id, itemJson.buildingId)!!
             )
         }
     }

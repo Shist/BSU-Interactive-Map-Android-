@@ -10,7 +10,6 @@ import com.example.data.repository.mappers.StructuralObjectItemDBMapper
 import com.example.data.retrofit.RetrofitClient
 import com.example.data.retrofit.MapDataApi
 import com.example.data.roomDB.BuildingItemsDatabase
-import com.example.data.roomDB.MigrationDB
 import com.example.data.roomDB.entities.buildingItem.BuildingItemJsonMapper
 import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemJsonMapper
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemJsonMapper

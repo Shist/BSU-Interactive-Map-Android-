@@ -13,7 +13,7 @@ class StructuralObjectItemDBMapper {
                 item.structuralItemsEntityDB.subdivision,
                 item.structuralItemsEntityDB.description,
                 item.structuralItemsEntityDB.website,
-                item.structuralItemsEntityDB.buildingId,
+                item.structuralItemsEntityDB.buildingItemId,
                 item.structuralItemsEntityDB.category,
                 IconItemDBMapper().fromDBToDomain(item.icon))
         }

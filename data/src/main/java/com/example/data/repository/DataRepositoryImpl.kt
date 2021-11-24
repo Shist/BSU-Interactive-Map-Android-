@@ -45,9 +45,7 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
                     item.buildingItemEntityDB.name != null ||
                     item.buildingItemEntityDB.isModern != null ||
                     item.buildingItemEntityDB.type != null ||
-                    item.buildingItemEntityDB.markerPath != null ||
-                    item.structuralObjectEntities != null ||
-                    item.address != null
+                    item.buildingItemEntityDB.markerPath != null
         }
     }
 
@@ -57,7 +55,7 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
                 ?.filter { isItemWithID(it) } // Clean list from items with null id
                 ?.map { BuildingItemJsonMapper().fromJsonToRoomDB(it)!! }
                 ?.filter { isItemNotEmpty(it) } // Clean DB from items with empty data
-            buildingItemsDatabase.buildingItemsDao().insertItemsList(items!!)
+            buildingItemsDatabase.buildingItemsDao().insertBuildingItemsList(items!!)
         } catch (e: Throwable) {
             throw NullPointerException("Error: " +
                     "Some BuildingItem (or even whole list) from json is empty!\n" + e.message)
@@ -66,7 +64,7 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
 
     override fun getItems(): Flow<List<BuildingItem>> {
         try {
-            return buildingItemsDatabase.buildingItemsDao().getAllItems().map { list ->
+            return buildingItemsDatabase.buildingItemsDao().getAllBuildingItems().map { list ->
                 list.map { BuildingItemDBMapper().fromDBToDomain(it)!! } }
         } catch (e: Throwable) {
             throw NullPointerException("Error while getting building items: " +
