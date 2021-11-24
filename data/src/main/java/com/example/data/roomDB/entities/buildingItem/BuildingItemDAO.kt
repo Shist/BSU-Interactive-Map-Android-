@@ -5,7 +5,6 @@ import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemEntit
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemEntityDB
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemEntityDB
 import kotlinx.coroutines.flow.Flow
-import java.sql.SQLException
 
 @Dao
 interface BuildingItemDAO {
