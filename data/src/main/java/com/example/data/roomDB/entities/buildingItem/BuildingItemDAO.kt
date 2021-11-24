@@ -97,10 +97,12 @@ interface BuildingItemDAO {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBuildingItemsList(items: List<BuildingItemDB>) {
+    suspend fun insertBuildingItemsList(items: List<BuildingItemDB>): List<Long> {
+        val resultValue = emptyList<Long>().toMutableList()
         for (bi: BuildingItemDB in items) {
-            insertOneBuildingItem(bi)
+            resultValue += insertOneBuildingItem(bi)
         }
+        return resultValue
     }
 
     @Transaction

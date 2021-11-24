@@ -38,10 +38,12 @@ interface StructuralObjectItemDAO {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStructuralObjectItemsList(items: List<StructuralObjectItemDB>) {
+    suspend fun insertStructuralObjectItemsList(items: List<StructuralObjectItemDB>): List<Long> {
+        val resultValue = emptyList<Long>().toMutableList()
         for (soi: StructuralObjectItemDB in items) {
-            insertOneStructuralObjectItem(soi)
+            resultValue += insertOneStructuralObjectItem(soi)
         }
+        return resultValue.toList()
     }
 
     @Transaction

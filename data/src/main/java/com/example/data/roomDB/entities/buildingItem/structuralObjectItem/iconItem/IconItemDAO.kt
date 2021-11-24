@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 interface IconItemDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOneIconItem(item: IconItemEntityDB)
+    suspend fun insertOneIconItem(item: IconItemEntityDB): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertIconItemsList(items: List<IconItemEntityDB>)
+    suspend fun insertIconItemsList(items: List<IconItemEntityDB>): List<Long>
 
     @Update
     suspend fun updateOneIconItem(item: IconItemEntityDB)

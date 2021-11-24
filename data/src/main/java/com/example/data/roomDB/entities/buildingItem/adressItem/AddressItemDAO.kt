@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 interface AddressItemDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOneAddressItem(item: AddressItemEntityDB)
+    suspend fun insertOneAddressItem(item: AddressItemEntityDB): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAddressItemsList(items: List<AddressItemEntityDB>)
+    suspend fun insertAddressItemsList(items: List<AddressItemEntityDB>): List<Long>
 
     @Update
     suspend fun updateOneAddressItem(item: AddressItemEntityDB)
