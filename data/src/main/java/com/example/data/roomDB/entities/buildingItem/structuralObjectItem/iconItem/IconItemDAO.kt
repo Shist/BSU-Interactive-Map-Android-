@@ -24,7 +24,7 @@ interface IconItemDAO {
     @Delete
     suspend fun deleteAllIconItems(items: List<IconItemEntityDB>)
 
-    @Query("SELECT * FROM icons ORDER BY id")
+    @Query("SELECT * FROM icons")
     fun getAllIconItems(): Flow<List<IconItemEntityDB>>
 
     @Query("SELECT * FROM icons WHERE id = :neededId")

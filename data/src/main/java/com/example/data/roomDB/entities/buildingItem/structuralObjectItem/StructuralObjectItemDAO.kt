@@ -79,7 +79,7 @@ interface StructuralObjectItemDAO {
     }
 
     @Transaction
-    @Query("SELECT * FROM structuralObjects ORDER BY id")
+    @Query("SELECT * FROM structuralObjects")
     fun getAllStructuralObjectItems(): Flow<List<StructuralObjectItemDB>>
 
     @Transaction

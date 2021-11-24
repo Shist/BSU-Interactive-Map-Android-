@@ -21,54 +21,66 @@ interface BuildingItemDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB): Long
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>): List<Long> {
+    suspend fun insertStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>?): List<Long> {
         val resultValue = emptyList<Long>().toMutableList()
-        for (soi: StructuralObjectItemEntityDB in items) {
-            resultValue += insertStructuralObjectItemEntityDB(soi)
+        if (items != null) {
+            for (soi: StructuralObjectItemEntityDB in items) {
+                resultValue += insertStructuralObjectItemEntityDB(soi)
+            }
         }
         return resultValue.toList()
     }
     @Update
     suspend fun updateStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
     @Update
-    suspend fun updateStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>) {
-        for (soi: StructuralObjectItemEntityDB in items) {
-            updateStructuralObjectItemEntityDB(soi)
+    suspend fun updateStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>?) {
+        if (items != null) {
+            for (soi: StructuralObjectItemEntityDB in items) {
+                updateStructuralObjectItemEntityDB(soi)
+            }
         }
     }
     @Delete
     suspend fun deleteStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
     @Delete
-    suspend fun deleteStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>) {
-        for (soi: StructuralObjectItemEntityDB in items) {
-            deleteStructuralObjectItemEntityDB(soi)
+    suspend fun deleteStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>?) {
+        if (items != null) {
+            for (soi: StructuralObjectItemEntityDB in items) {
+                deleteStructuralObjectItemEntityDB(soi)
+            }
         }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIconItemEntityDB(icon: IconItemEntityDB?): Long
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertIconItemEntitiesListDB(items: List<IconItemEntityDB>): List<Long> {
+    suspend fun insertIconItemEntitiesListDB(items: List<IconItemEntityDB>?): List<Long> {
         val resultValue = emptyList<Long>().toMutableList()
-        for (ii: IconItemEntityDB in items) {
-            resultValue += insertIconItemEntityDB(ii)
+        if (items != null) {
+            for (ii: IconItemEntityDB in items) {
+                resultValue += insertIconItemEntityDB(ii)
+            }
         }
         return resultValue.toList()
     }
     @Update
     suspend fun updateIconItemEntityDB(icon: IconItemEntityDB?)
     @Update
-    suspend fun updateIconItemEntitiesListDB(items: List<IconItemEntityDB>) {
-        for (ii: IconItemEntityDB in items) {
-            updateIconItemEntityDB(ii)
+    suspend fun updateIconItemEntitiesListDB(items: List<IconItemEntityDB>?) {
+        if (items != null) {
+            for (ii: IconItemEntityDB in items) {
+                updateIconItemEntityDB(ii)
+            }
         }
     }
     @Delete
     suspend fun deleteIconItemEntityDB(icon: IconItemEntityDB?)
     @Delete
-    suspend fun deleteIconItemEntitiesListDB(items: List<IconItemEntityDB>) {
-        for (ii: IconItemEntityDB in items) {
-            deleteIconItemEntityDB(ii)
+    suspend fun deleteIconItemEntitiesListDB(items: List<IconItemEntityDB>?) {
+        if (items != null) {
+            for (ii: IconItemEntityDB in items) {
+                deleteIconItemEntityDB(ii)
+            }
         }
     }
 
@@ -137,7 +149,7 @@ interface BuildingItemDAO {
     }
 
     @Transaction
-    @Query("SELECT * FROM buildings ORDER BY id")
+    @Query("SELECT * FROM buildings")
     fun getAllBuildingItems(): Flow<List<BuildingItemDB>>
 
     @Transaction

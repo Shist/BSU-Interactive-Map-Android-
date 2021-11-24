@@ -24,7 +24,7 @@ interface AddressItemDAO {
     @Delete
     suspend fun deleteAllAddressItems(items: List<AddressItemEntityDB>)
 
-    @Query("SELECT * FROM addresses ORDER BY id")
+    @Query("SELECT * FROM addresses")
     fun getAllAddressItems(): Flow<List<AddressItemEntityDB>>
 
     @Query("SELECT * FROM addresses WHERE id = :neededId")
