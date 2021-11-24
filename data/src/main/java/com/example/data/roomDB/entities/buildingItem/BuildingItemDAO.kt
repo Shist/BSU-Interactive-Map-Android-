@@ -84,15 +84,11 @@ interface BuildingItemDAO {
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOneBuildingItem(item: BuildingItemDB): Long {
-        try {
-            val resultValue = insertBuildingItemEntityDB(item.buildingItemEntityDB)
-            insertStructuralObjectItemEntitiesListDB(item.structuralObjectEntities)
-            insertIconItemEntitiesListDB(item.iconEntities)
-            insertAddressItemEntityDB(item.address)
-            return resultValue
-        } catch (e: Throwable) {
-            throw SQLException(e.message)
-        }
+        val resultValue = insertBuildingItemEntityDB(item.buildingItemEntityDB)
+        insertStructuralObjectItemEntitiesListDB(item.structuralObjectEntities)
+        insertIconItemEntitiesListDB(item.iconEntities)
+        insertAddressItemEntityDB(item.address)
+        return resultValue
     }
 
     @Transaction
