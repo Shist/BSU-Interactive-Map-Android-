@@ -10,22 +10,22 @@ interface StructuralObjectItemDAO {
     // This operations are needed for entities. We'll use it in more difficult queries
     // =================================
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB): Long
+    suspend fun insertStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertIconItemEntityDB(icon: IconItemEntityDB?): Long
+    suspend fun insertIconItemEntityDB(icon: IconItemEntityDB?): Long
 
     @Update
-    fun updateStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
+    suspend fun updateStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
 
     @Update
-    fun updateIconItemEntityDB(icon: IconItemEntityDB?)
+    suspend fun updateIconItemEntityDB(icon: IconItemEntityDB?)
 
     @Delete
-    fun deleteStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
+    suspend fun deleteStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
 
     @Delete
-    fun deleteIconItemEntityDB(icon: IconItemEntityDB?)
+    suspend fun deleteIconItemEntityDB(icon: IconItemEntityDB?)
     // =================================
 
     @Transaction

@@ -5,6 +5,7 @@ import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemEntit
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemEntityDB
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemEntityDB
 import kotlinx.coroutines.flow.Flow
+import java.sql.SQLException
 
 @Dao
 interface BuildingItemDAO {
@@ -12,16 +13,16 @@ interface BuildingItemDAO {
     // This operations are needed for entities. We'll use it in more difficult queries
     // =================================
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB): Long
+    suspend fun insertBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB): Long
     @Update
-    fun updateBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB)
+    suspend fun updateBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB)
     @Delete
-    fun deleteBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB)
+    suspend fun deleteBuildingItemEntityDB(buildingItemEntityDB: BuildingItemEntityDB)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB): Long
+    suspend fun insertStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB): Long
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>): List<Long> {
+    suspend fun insertStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>): List<Long> {
         val resultValue = emptyList<Long>().toMutableList()
         for (soi: StructuralObjectItemEntityDB in items) {
             resultValue += insertStructuralObjectItemEntityDB(soi)
@@ -29,26 +30,26 @@ interface BuildingItemDAO {
         return resultValue.toList()
     }
     @Update
-    fun updateStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
+    suspend fun updateStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
     @Update
-    fun updateStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>) {
+    suspend fun updateStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>) {
         for (soi: StructuralObjectItemEntityDB in items) {
             updateStructuralObjectItemEntityDB(soi)
         }
     }
     @Delete
-    fun deleteStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
+    suspend fun deleteStructuralObjectItemEntityDB(structuralItemsEntityDB: StructuralObjectItemEntityDB)
     @Delete
-    fun deleteStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>) {
+    suspend fun deleteStructuralObjectItemEntitiesListDB(items: List<StructuralObjectItemEntityDB>) {
         for (soi: StructuralObjectItemEntityDB in items) {
             deleteStructuralObjectItemEntityDB(soi)
         }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertIconItemEntityDB(icon: IconItemEntityDB?): Long
+    suspend fun insertIconItemEntityDB(icon: IconItemEntityDB?): Long
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertIconItemEntitiesListDB(items: List<IconItemEntityDB>): List<Long> {
+    suspend fun insertIconItemEntitiesListDB(items: List<IconItemEntityDB>): List<Long> {
         val resultValue = emptyList<Long>().toMutableList()
         for (ii: IconItemEntityDB in items) {
             resultValue += insertIconItemEntityDB(ii)
@@ -56,38 +57,42 @@ interface BuildingItemDAO {
         return resultValue.toList()
     }
     @Update
-    fun updateIconItemEntityDB(icon: IconItemEntityDB?)
+    suspend fun updateIconItemEntityDB(icon: IconItemEntityDB?)
     @Update
-    fun updateIconItemEntitiesListDB(items: List<IconItemEntityDB>) {
+    suspend fun updateIconItemEntitiesListDB(items: List<IconItemEntityDB>) {
         for (ii: IconItemEntityDB in items) {
             updateIconItemEntityDB(ii)
         }
     }
     @Delete
-    fun deleteIconItemEntityDB(icon: IconItemEntityDB?)
+    suspend fun deleteIconItemEntityDB(icon: IconItemEntityDB?)
     @Delete
-    fun deleteIconItemEntitiesListDB(items: List<IconItemEntityDB>) {
+    suspend fun deleteIconItemEntitiesListDB(items: List<IconItemEntityDB>) {
         for (ii: IconItemEntityDB in items) {
             deleteIconItemEntityDB(ii)
         }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAddressItemEntityDB(address: AddressItemEntityDB?): Long
+    suspend fun insertAddressItemEntityDB(address: AddressItemEntityDB?): Long
     @Update
-    fun updateAddressItemEntityDB(address: AddressItemEntityDB?)
+    suspend fun updateAddressItemEntityDB(address: AddressItemEntityDB?)
     @Delete
-    fun deleteAddressItemEntityDB(address: AddressItemEntityDB?)
+    suspend fun deleteAddressItemEntityDB(address: AddressItemEntityDB?)
     // =================================
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOneBuildingItem(item: BuildingItemDB): Long {
-        val resultValue = insertBuildingItemEntityDB(item.buildingItemEntityDB)
-        insertStructuralObjectItemEntitiesListDB(item.structuralObjectEntities)
-        insertIconItemEntitiesListDB(item.iconEntities)
-        insertAddressItemEntityDB(item.address)
-        return resultValue
+        try {
+            val resultValue = insertBuildingItemEntityDB(item.buildingItemEntityDB)
+            insertStructuralObjectItemEntitiesListDB(item.structuralObjectEntities)
+            insertIconItemEntitiesListDB(item.iconEntities)
+            insertAddressItemEntityDB(item.address)
+            return resultValue
+        } catch (e: Throwable) {
+            throw SQLException(e.message)
+        }
     }
 
     @Transaction
