@@ -33,9 +33,15 @@ class WorkManagerApplication : Application() {
 
         val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
 
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED) // Только при наличии Wi-Fi
+            .setRequiresCharging(true) // Только, если устройство заряжается
+            .build()
+
         val saveRequest =
             PeriodicWorkRequestBuilder<UploadWorker>(24, TimeUnit.HOURS)
                 .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
+                .setConstraints(constraints)
                 .build()
 
         WorkManager.getInstance(applicationContext).enqueue(saveRequest)
