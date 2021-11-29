@@ -34,8 +34,8 @@ class WorkManagerApplication : Application() {
         val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
 
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED) // Только при наличии Wi-Fi
-            .setRequiresCharging(true) // Только, если устройство заряжается
+            .setRequiredNetworkType(NetworkType.UNMETERED) // Only if Wi-Fi is connected
+            .setRequiresCharging(true) // Only if device is on recharging
             .build()
 
         val saveRequest =

@@ -24,7 +24,16 @@ import org.koin.core.component.inject
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.ScaleBarOverlay
+
+import org.osmdroid.views.overlay.OverlayItem
+
+import org.osmdroid.views.overlay.ItemizedIconOverlay
+
+
+
 
 class MapFragment : Fragment(), KoinComponent {
 
@@ -50,8 +59,8 @@ class MapFragment : Fragment(), KoinComponent {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
 
         map = view.findViewById(R.id.map)
+        map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.ALWAYS)
         map.setTileSource(TileSourceFactory.MAPNIK)
-
         map.setMultiTouchControls(true)
 
         val pointBelarus = GeoPoint(53.894,27.547)
@@ -59,26 +68,23 @@ class MapFragment : Fragment(), KoinComponent {
         map.controller.setCenter(pointBelarus)
         map.controller.setZoom(12.0)
 
-        val pointInfo = map.mapCenter.toString()
-        val zoomInfo = map.zoomLevelDouble.toString()
-        Log.d("point_on_map", pointInfo)
-        Log.d("zoom_on_map", zoomInfo)
-
         var dataList: List<BuildingItem> = emptyList()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.dataFlow.collect {
                     dataList = it
+                    setMarkers(dataList)
                     Log.d("JSON DATA", "Json data, received by MapViewModel:\n$dataList")
                 }
             }
         }
 
-        val timeLength = if (dataList.isEmpty()) // Если данных вообще нету (даже в базе)
+        val timeLength = if (dataList.isEmpty()) // If not data in general (even in database)
             Snackbar.LENGTH_INDEFINITE
-        else // Если новые данные не пришли, но есть старые данные в базе
+        else { // If no NEW data, but we have OLD data in database
             Snackbar.LENGTH_LONG
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -91,6 +97,7 @@ class MapFragment : Fragment(), KoinComponent {
                         LoadState.SUCCESS -> {
                             createSnackbar(resources.getString(R.string.loadingSuccess),
                                 requireContext().getColor(R.color.black))
+                            setMarkers(dataList)
                         }
                         LoadState.INTERNET_ERROR -> {
                             createSnackbarWithReload(timeLength,
@@ -121,11 +128,33 @@ class MapFragment : Fragment(), KoinComponent {
         _binding = null
     }
 
+    private fun setMarkers(dataList: List<BuildingItem>) {
+        //--- Create Another Overlay for multi marker
+        val markersArray = ArrayList<OverlayItem>()
+        for (item in dataList) {
+            markersArray.add(
+                OverlayItem(
+                    item.name, item.name, GeoPoint(
+                        item.address!!.latitude!!.toDouble(), item.address!!.longitude!!.toDouble())
+                )
+            )
+        }
+
+        val markersItemizedIconOverlay: ItemizedIconOverlay<OverlayItem> =
+            ItemizedIconOverlay(
+                markersArray, null, context
+            )
+        map.overlays.add(markersItemizedIconOverlay)
+    }
+
     private fun createSnackbar(message: String, color: Int) {
+        var timeLength = BaseTransientBottomBar.LENGTH_LONG
+        if (message == getString(R.string.loading))
+            timeLength = BaseTransientBottomBar.LENGTH_INDEFINITE
         val snackbar = Snackbar.make(
             binding.mapContainer,
             message,
-            BaseTransientBottomBar.LENGTH_SHORT
+            timeLength
         )
         snackbar.setTextColor(color)
         snackbar.show()
