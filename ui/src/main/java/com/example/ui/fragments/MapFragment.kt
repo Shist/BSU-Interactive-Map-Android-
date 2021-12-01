@@ -1,11 +1,13 @@
 package com.example.ui.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -129,17 +131,18 @@ class MapFragment : Fragment(), KoinComponent {
     }
 
     private fun setMarkers(dataList: List<BuildingItem>) {
-        //--- Create Another Overlay for multi marker
         val markersArray = ArrayList<OverlayItem>()
         for (item in dataList) {
-            markersArray.add(
-                OverlayItem(
-                    item.name, item.name, GeoPoint(
-                        item.address!!.latitude!!.toDouble(), item.address!!.longitude!!.toDouble())
-                )
+            val overlayItem = OverlayItem(
+                item.name, item.name, GeoPoint(
+                    item.address!!.latitude!!.toDouble(), item.address!!.longitude!!.toDouble())
             )
+            val marker = ResourcesCompat.getDrawable(resources, resources
+                .getIdentifier("ic_" + item.markerPath?.substringBefore('.'),
+                    "drawable", activity?.packageName), null)
+            overlayItem.setMarker(marker)
+            markersArray.add(overlayItem)
         }
-
         val markersItemizedIconOverlay: ItemizedIconOverlay<OverlayItem> =
             ItemizedIconOverlay(
                 markersArray, null, context
