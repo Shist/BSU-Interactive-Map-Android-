@@ -7,4 +7,5 @@
     <string name="errorNoNewsOnAPI">There is no any news at http://map.bsu.by:51107/api/buildings/all</string>
     <string name="launching">Launching the application</string>
     <string name="reload">Reload</string>
+    <string name="more">More</string>
 </resources>

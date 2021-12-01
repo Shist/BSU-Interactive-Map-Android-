@@ -1,6 +1,5 @@
 package com.example.ui.fragments
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
@@ -28,13 +27,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.ScaleBarOverlay
-
 import org.osmdroid.views.overlay.OverlayItem
-
-import org.osmdroid.views.overlay.ItemizedIconOverlay
-
-
 
 
 class MapFragment : Fragment(), KoinComponent {
@@ -131,23 +124,20 @@ class MapFragment : Fragment(), KoinComponent {
     }
 
     private fun setMarkers(dataList: List<BuildingItem>) {
-        val markersArray = ArrayList<OverlayItem>()
         for (item in dataList) {
-            val overlayItem = OverlayItem(
-                item.name, item.name, GeoPoint(
-                    item.address!!.latitude!!.toDouble(), item.address!!.longitude!!.toDouble())
-            )
             val marker = ResourcesCompat.getDrawable(resources, resources
                 .getIdentifier("ic_" + item.markerPath?.substringBefore('.'),
                     "drawable", activity?.packageName), null)
-            overlayItem.setMarker(marker)
-            markersArray.add(overlayItem)
-        }
-        val markersItemizedIconOverlay: ItemizedIconOverlay<OverlayItem> =
-            ItemizedIconOverlay(
-                markersArray, null, context
+            val overlayItemWindow = MapItemizedOverlay(
+                marker, requireContext()
             )
-        map.overlays.add(markersItemizedIconOverlay)
+            val overlayItem = OverlayItem(
+                item.name, item.address?.description, GeoPoint(
+                    item.address!!.latitude!!.toDouble(), item.address!!.longitude!!.toDouble())
+            )
+            overlayItemWindow.addOverlay(overlayItem)
+            map.overlays.add(overlayItemWindow)
+        }
     }
 
     private fun createSnackbar(message: String, color: Int) {
