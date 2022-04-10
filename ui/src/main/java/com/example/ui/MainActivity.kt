@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.ui.databinding.ActivityMainBinding
 import com.example.ui.fragments.MapFragment
+import com.mapbox.mapboxsdk.Mapbox
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        Mapbox.getInstance(this, getString(R.string.mapbox_access_token))
 
         if (savedInstanceState == null)
         {

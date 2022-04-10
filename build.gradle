@@ -39,8 +39,6 @@ buildscript {
     ext.swipe_refresh_layout_version = "1.1.0"
     // Lifecycles only (without ViewModel or LiveData)
     ext.lifecycle_version = "2.4.0-alpha02"
-    // OpenStreetMap
-    ext.osm_version = "6.1.10"
 
     repositories {
         google()
