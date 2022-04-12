@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
         minSdk 26
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -50,7 +50,8 @@ dependencies {
     implementation "com.google.android.material:material:$material_version"
 
     // MapBox
-    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:4.3.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:6.3.0'
+    implementation "com.mapbox.navigation:android:2.3.0"
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:7.0.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v7:0.7.0'
     implementation ('com.mapbox.mapboxsdk:mapbox-android-geocoder:1.0.0@aar'){
