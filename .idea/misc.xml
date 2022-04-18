@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_marker_admin_hoz.xml" value="0.155" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_marker_uchebnoye.xml" value="0.1" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/map.xml" value="0.11956521739130435" />
       </map>
     </option>
