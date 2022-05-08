@@ -1,6 +1,7 @@
 package com.example.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.mapbox.maps.Style
 import com.mapbox.maps.plugin.locationcomponent.location
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.domain.BuildingItem
 import com.example.ui.R
+import com.example.ui.databinding.IconInfoBinding
 import com.example.ui.mapbox.LocationPermissionHelper
 import com.example.ui.viewModels.LoadState
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -28,15 +29,20 @@ import com.google.android.material.snackbar.Snackbar
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
+import com.mapbox.maps.ViewAnnotationAnchor
 import com.mapbox.maps.extension.style.expressions.dsl.generated.interpolate
 import com.mapbox.maps.plugin.LocationPuck2D
+import com.mapbox.maps.plugin.annotation.AnnotationPlugin
 import com.mapbox.maps.plugin.annotation.annotations
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import com.mapbox.maps.plugin.gestures.OnMoveListener
 import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListener
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListener
+import com.mapbox.maps.viewannotation.ViewAnnotationManager
+import com.mapbox.maps.viewannotation.viewAnnotationOptions
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
@@ -105,11 +111,16 @@ class MapFragment : Fragment(), KoinComponent {
 
         var dataList: List<BuildingItem> = emptyList()
 
+        var loadingDataFromDataBaseIsDone = false
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.dataFlow.collect {
                     dataList = it
-                    setMarkers(dataList)
+                    if (!loadingDataFromDataBaseIsDone) {
+                        setMarkers(dataList)
+                        loadingDataFromDataBaseIsDone = true
+                    }
                 }
             }
         }
@@ -157,35 +168,76 @@ class MapFragment : Fragment(), KoinComponent {
         }
     }
 
-    private fun setMarkers(itemsList: List<BuildingItem>) {
-        // Create an instance of the Annotation API and get the PointAnnotationManager.
-        val annotationApi = mapView.annotations
-        val pointAnnotationManager = annotationApi.createPointAnnotationManager()
-        for (item in itemsList) {
-            // Set options for the resulting symbol layer.
-            val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
-                // Define a geographic coordinate.
-                .withPoint(Point.fromLngLat(
-                    item.address?.longitude?.toDouble()!!,
-                    item.address?.latitude?.toDouble()!!))
-                // Specify the bitmap you assigned to the point annotation
-                // The bitmap will be added to map style automatically.
-                .withIconImage(ContextCompat.getDrawable(requireContext(), R.drawable.ic_marker_uchebnoye)?.toBitmap()!!)
-            // Add the resulting pointAnnotation to the map.
-            pointAnnotationManager.create(pointAnnotationOptions)
-        }
+    private lateinit var annotationApi : AnnotationPlugin
+    private lateinit var pointAnnotationManager : PointAnnotationManager
+    private lateinit var viewAnnotationManager : ViewAnnotationManager
 
-        // ВРЕМЕННОЕ РЕШЕНИЕ (ПОКА СЕРВАК НЕ ПОДНИМУТ) - РАССТАНОВКА ОДНОЙ ИКОНКИ ВРУЧНУЮ
-        // Set options for the resulting symbol layer.
-        val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
-            // Define a geographic coordinate.
-            .withPoint(Point.fromLngLat(27.547,53.928))
-            // Specify the bitmap you assigned to the point annotation
-            // The bitmap will be added to map style automatically.
-            .withIconImage(ContextCompat.getDrawable(requireContext(), R.drawable.ic_marker_uchebnoye)?.toBitmap()!!)
-        // Add the resulting pointAnnotation to the map.
-        pointAnnotationManager.create(pointAnnotationOptions)
-        // ВРЕМЕННОЕ РЕШЕНИЕ (ПОКА СЕРВАК НЕ ПОДНИМУТ) - РАССТАНОВКА ОДНОЙ ИКОНКИ ВРУЧНУЮ
+    private fun setMarkers(itemsList: List<BuildingItem>) {
+        annotationApi = mapView.annotations
+        pointAnnotationManager = annotationApi.createPointAnnotationManager()
+        viewAnnotationManager = mapView.viewAnnotationManager
+        for (item in itemsList) {
+            if (item.address == null)
+                continue
+            // Здесь (в будущем) стоит добавить случаи для других типов зданий (дефолт - историческое)
+            val buildingType = when (item.type) {
+                "историческое" -> R.drawable.ic_marker_historical
+                "учебное" -> R.drawable.ic_marker_uchebnoye
+                "административное" -> R.drawable.ic_marker_admin
+                "многофункциональное" -> R.drawable.ic_marker_mnogofunc
+                else -> R.drawable.ic_marker_historical
+            }
+            val point = Point.fromLngLat(
+                item.address?.longitude?.toDouble()!!,
+                item.address?.latitude?.toDouble()!!)
+            val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
+                .withPoint(point)
+                .withIconImage(ContextCompat.getDrawable(requireContext(), buildingType)?.toBitmap()!!)
+            val pointAnnotation = pointAnnotationManager.create(pointAnnotationOptions)
+            //Log.d("ADDED MAP OBJECT", "ADDED POINT : " + pointAnnotation.featureIdentifier)
+            if (viewAnnotationManager.getViewAnnotationByFeatureId(pointAnnotation.featureIdentifier) == null) {
+                //Log.d("ADDED MAP OBJECT", "ADDED VIEW : " + pointAnnotation.featureIdentifier)
+                val viewAnnotation = viewAnnotationManager.addViewAnnotation(
+                    resId = R.layout.icon_info,
+                    options = viewAnnotationOptions {
+                        geometry(point)
+                        associatedFeatureId(pointAnnotation.featureIdentifier)
+                        anchor(ViewAnnotationAnchor.BOTTOM)
+                        offsetY((pointAnnotation.iconImageBitmap?.height!!).toInt())
+                        visible(false)
+                        selected(false)
+                    }
+                )
+                IconInfoBinding.bind(viewAnnotation).apply {
+                    iconTitle.text = item.name
+                    // TODO add list of structural objects with info (if needed)
+                }
+                pointAnnotationManager.addClickListener { clickedPoint ->
+                    val iconView =
+                        viewAnnotationManager.getViewAnnotationByFeatureId(clickedPoint.featureIdentifier)
+                    iconView?.toggleViewVisibility()
+                    val isSelected =
+                        viewAnnotationManager.getViewAnnotationOptionsByFeatureId(clickedPoint.featureIdentifier)?.selected
+                    if (iconView != null) {
+                        viewAnnotationManager.updateViewAnnotation(
+                            iconView,
+                            viewAnnotationOptions {
+                                if (isSelected == true)
+                                    selected(false)
+                                else
+                                    selected(true)
+                            }
+                        )
+                    }
+                    true
+                }
+            }
+        }
+        val a = 5
+    }
+
+    private fun View.toggleViewVisibility() {
+        visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
     }
 
     private fun onMapReady() {
@@ -238,7 +290,6 @@ class MapFragment : Fragment(), KoinComponent {
     }
 
     private fun onCameraTrackingDismissed() {
-        Toast.makeText(activity, "onCameraTrackingDismissed", Toast.LENGTH_SHORT).show()
         mapView.location
             .removeOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
         mapView.location

@@ -1,5 +1,5 @@
 <resources>
-    <string name="mapbox_access_token">pk.eyJ1Ijoic2hpc3QiLCJhIjoiY2wwenBzcmU3MXF5MTNjcGU5YjYycGxobiJ9.UK4wxOu1HNOcFOcjCMXqiw</string>
+    <string name="mapbox_access_token" translatable="false">pk.eyJ1Ijoic2hpc3QiLCJhIjoiY2wwenBzcmU3MXF5MTNjcGU5YjYycGxobiJ9.UK4wxOu1HNOcFOcjCMXqiw</string>
     <string name="app_name">BSU Interactive Map</string>
     <string name="loading">Loading new data</string>
     <string name="loadingSuccess">New map data has been loaded successfully</string>
@@ -9,4 +9,7 @@
     <string name="launching">Launching the application</string>
     <string name="reload">Reload</string>
     <string name="more">More</string>
+    <string name="building_blank">Building</string>
+    <string name="departments_label_blank">Departments:</string>
+    <string name="no_departments_label_blank">No departments at database…</string>
 </resources>
