@@ -1,6 +1,5 @@
 package com.example.ui.adapter
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,12 +9,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.StructuralObjectItem
+import com.example.ui.MainActivity
 import com.example.ui.databinding.DepartmentPreviewInfoBinding
 
-class DepartmentsListAdapter(context: Context) :
+class DepartmentsListAdapter(activity: MainActivity) :
     ListAdapter<StructuralObjectItem, DepartmentsListAdapter.ItemViewHolder>(DepartmentsDiffCallback()) {
 
-    private val context = context
+    private val activity = activity
 
     class ItemViewHolder: RecyclerView.ViewHolder {
 
@@ -23,12 +23,14 @@ class DepartmentsListAdapter(context: Context) :
         val dpBtnSeeDetails: Button
         val dpBtnCreateRoute: Button
         val dpBtnSee3DModel: Button
+        private val activity: MainActivity
 
-        constructor(oddBinding: DepartmentPreviewInfoBinding, context: Context): super(oddBinding.root) {
+        constructor(oddBinding: DepartmentPreviewInfoBinding, activity: MainActivity): super(oddBinding.root) {
             departmentPreviewTitle = oddBinding.departmentPreviewTitle
             dpBtnSeeDetails = oddBinding.modernIconBtnSeeDetails
             dpBtnCreateRoute = oddBinding.modernIconBtnCreateRoute
             dpBtnSee3DModel = oddBinding.modernIconBtnSee3dModel
+            this.activity = activity
         }
     }
 
@@ -36,13 +38,13 @@ class DepartmentsListAdapter(context: Context) :
         val departmentObject = getItem(position)
         holder.departmentPreviewTitle.text = departmentObject.subdivision
         holder.dpBtnSeeDetails.setOnClickListener {
-            // TODO вызвать onClick() из MainActivity
+            activity.onModernBuildingClick(departmentObject)
         }
         holder.dpBtnCreateRoute.setOnClickListener {
-            // TODO вызвать onClick() из MainActivity
+            // TODO вызвать onClick() из MainActivity для маршрута
         }
         holder.dpBtnSee3DModel.setOnClickListener {
-            // TODO вызвать onClick() из MainActivity
+            // TODO вызвать onClick() из MainActivity для 3D модели
         }
         holder.dpBtnSeeDetails.setBackgroundColor(Color.parseColor("#21386D"))
         holder.dpBtnCreateRoute.setBackgroundColor(Color.parseColor("#21386D"))
@@ -50,7 +52,7 @@ class DepartmentsListAdapter(context: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(DepartmentPreviewInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false), context)
+        return ItemViewHolder(DepartmentPreviewInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false), activity)
     }
 
 }

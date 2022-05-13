@@ -11,9 +11,10 @@
     <string name="more">More</string>
     <string name="building_blank">Building</string>
     <string name="departments_label_blank">Departments:</string>
-    <string name="no_departments_label_blank">No departments at database</string>
+    <string name="no_data_at_db_label_blank">No information at database</string>
     <string name="btn_see_details">Details</string>
     <string name="btn_route">Route</string>
     <string name="btn_3d_model">3D Model</string>
     <string name="btn_see_historical_information">Historical information</string>
+    <string name="historical_information">History reference</string>
 </resources>

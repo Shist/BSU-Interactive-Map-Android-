@@ -3,8 +3,12 @@ package com.example.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.domain.BuildingItem
+import com.example.domain.StructuralObjectItem
 import com.example.ui.databinding.ActivityMainBinding
+import com.example.ui.fragments.HistBuildingDetailsFragment
 import com.example.ui.fragments.MapFragment
+import com.example.ui.fragments.ModernDepartDetailsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,11 +45,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun onItemClick(itemID: String) {
-        currItemId = itemID
-        // TODO сделать тут детали подразделения
-//        inflateFragment(NewsPageFragment.newInstance(itemID),
-//            R.id.fragment_container_main,true)
+    fun onHistoricalBuildingClick(building: BuildingItem) {
+        inflateFragment(HistBuildingDetailsFragment.newInstance(building),
+            R.id.fragment_container,true)
+    }
+
+    fun onModernBuildingClick(department: StructuralObjectItem) {
+        inflateFragment(ModernDepartDetailsFragment.newInstance(department),
+            R.id.fragment_container,true)
     }
 
 }

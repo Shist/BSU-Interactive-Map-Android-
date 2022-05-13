@@ -10,9 +10,10 @@
     <string name="more">Ещё</string>
     <string name="building_blank">Здание</string>
     <string name="departments_label_blank">Подразделения:</string>
-    <string name="no_departments_label_blank">Нет подразделений в базе данных</string>
+    <string name="no_data_at_db_label_blank">Нет информации в базе данных</string>
     <string name="btn_see_details">Подробнее</string>
     <string name="btn_route">Маршрут</string>
     <string name="btn_3d_model">3D Модель</string>
     <string name="btn_see_historical_information">Исторические сведения</string>
+    <string name="historical_information">Историческая справка</string>
 </resources>

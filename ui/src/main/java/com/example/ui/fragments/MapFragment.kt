@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.domain.BuildingItem
+import com.example.ui.MainActivity
 import com.example.ui.R
 import com.example.ui.adapter.DepartmentsListAdapter
 import com.example.ui.databinding.HistIconInfoBinding
@@ -235,13 +236,14 @@ class MapFragment : Fragment(), KoinComponent {
                         HistIconInfoBinding.bind(viewAnnotation).apply {
                             histIconTitle.text = item.name
                             histIconBtnSeeHistoricalInformation.setOnClickListener {
-                                // TODO вызвать onClick() из MainActivity
+                                val myActivity = requireActivity() as MainActivity
+                                myActivity.onHistoricalBuildingClick(item)
                             }
                             histIconBtnCreateRoute.setOnClickListener {
-                                // TODO вызвать onClick() из MainActivity
+                                // TODO вызвать onClick() из MainActivity для маршрута
                             }
                             histIconBtnSee3dModel.setOnClickListener {
-                                // TODO вызвать onClick() из MainActivity
+                                // TODO вызвать onClick() из MainActivity для 3D модели
                             }
                         }
                     }
@@ -276,7 +278,7 @@ class MapFragment : Fragment(), KoinComponent {
                                 iconRecyclerView.isGone = false
                                 val recyclerView = iconRecyclerView
                                 recyclerView.layoutManager = GridLayoutManager(context, 1)
-                                val adapter = DepartmentsListAdapter(requireContext())
+                                val adapter = DepartmentsListAdapter(requireActivity() as MainActivity)
                                 recyclerView.adapter = adapter
                                 adapter.submitList(item.structuralObjects)
                             }
