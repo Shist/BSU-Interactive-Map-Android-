@@ -3,11 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1625" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/button_bg.xml" value="0.2085" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_map_dialog.xml" value="0.1625" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_marker_admin_hoz.xml" value="0.155" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_marker_historical.xml" value="0.1625" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_marker_sport.xml" value="0.1625" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_marker_transform.xml" value="0.1625" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/ic_marker_uchebnoye.xml" value="0.1" />
-        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/icon_info.xml" value="0.209375" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/marker_dialog.xml" value="0.1625" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/department_preview_info.xml" value="0.21818181061547676" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/hist_icon_info.xml" value="0.2879999900124293" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/historical_icon_info.xml" value="0.21041666666666667" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/icon_info.xml" value="0.19199999334161955" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/map.xml" value="0.11956521739130435" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/modern_icon_info.xml" value="0.6545454318464303" />
       </map>
     </option>
   </component>

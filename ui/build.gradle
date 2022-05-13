@@ -53,6 +53,8 @@ dependencies {
     implementation 'com.mapbox.maps:android:10.4.0'
     // For calculating fine user's location (if device supports Google Play)
     implementation("com.google.android.gms:play-services-location:19.0.1")
+    // For annotation (of icons) inflating
+    implementation 'androidx.asynclayoutinflater:asynclayoutinflater:1.0.0'
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_viewmodel_ktx_version"

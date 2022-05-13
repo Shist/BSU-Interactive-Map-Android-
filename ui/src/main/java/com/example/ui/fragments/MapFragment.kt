@@ -1,7 +1,6 @@
 package com.example.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +13,19 @@ import com.mapbox.maps.plugin.locationcomponent.location
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.domain.BuildingItem
 import com.example.ui.R
-import com.example.ui.databinding.IconInfoBinding
+import com.example.ui.adapter.DepartmentsListAdapter
+import com.example.ui.databinding.HistIconInfoBinding
+import com.example.ui.databinding.ModernIconInfoBinding
 import com.example.ui.mapbox.LocationPermissionHelper
 import com.example.ui.viewModels.LoadState
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -30,6 +34,7 @@ import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.ViewAnnotationAnchor
+import com.mapbox.maps.extension.style.expressions.dsl.generated.color
 import com.mapbox.maps.extension.style.expressions.dsl.generated.interpolate
 import com.mapbox.maps.plugin.LocationPuck2D
 import com.mapbox.maps.plugin.annotation.AnnotationPlugin
@@ -54,6 +59,12 @@ class MapFragment : Fragment(), KoinComponent {
 
     private var _binding: MapBinding? = null
     private val binding get() = _binding!!
+
+    private var _modernIconBinding: ModernIconInfoBinding? = null
+    private val modernIconBinding get() = _modernIconBinding!!
+
+    private var _histIconBinding: HistIconInfoBinding? = null
+    private val histIconBinding get() = _histIconBinding!!
 
     private lateinit var mapView: MapView
 
@@ -85,6 +96,8 @@ class MapFragment : Fragment(), KoinComponent {
         savedInstanceState: Bundle?
     ): View {
         _binding = MapBinding.inflate(inflater, container, false)
+        _modernIconBinding = ModernIconInfoBinding.inflate(inflater, container, false)
+        _histIconBinding = HistIconInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -172,6 +185,8 @@ class MapFragment : Fragment(), KoinComponent {
     private lateinit var pointAnnotationManager : PointAnnotationManager
     private lateinit var viewAnnotationManager : ViewAnnotationManager
 
+    private val asyncInflater by lazy { AsyncLayoutInflater(requireContext()) }
+
     private fun setMarkers(itemsList: List<BuildingItem>) {
         annotationApi = mapView.annotations
         pointAnnotationManager = annotationApi.createPointAnnotationManager()
@@ -183,6 +198,7 @@ class MapFragment : Fragment(), KoinComponent {
             val buildingType = when (item.type) {
                 "историческое" -> R.drawable.ic_marker_historical
                 "учебное" -> R.drawable.ic_marker_uchebnoye
+                "общежитие" -> R.drawable.ic_marker_obsezhitie
                 "административное" -> R.drawable.ic_marker_admin
                 "многофункциональное" -> R.drawable.ic_marker_mnogofunc
                 else -> R.drawable.ic_marker_historical
@@ -194,23 +210,78 @@ class MapFragment : Fragment(), KoinComponent {
                 .withPoint(point)
                 .withIconImage(ContextCompat.getDrawable(requireContext(), buildingType)?.toBitmap()!!)
             val pointAnnotation = pointAnnotationManager.create(pointAnnotationOptions)
-            //Log.d("ADDED MAP OBJECT", "ADDED POINT : " + pointAnnotation.featureIdentifier)
             if (viewAnnotationManager.getViewAnnotationByFeatureId(pointAnnotation.featureIdentifier) == null) {
-                //Log.d("ADDED MAP OBJECT", "ADDED VIEW : " + pointAnnotation.featureIdentifier)
-                val viewAnnotation = viewAnnotationManager.addViewAnnotation(
-                    resId = R.layout.icon_info,
-                    options = viewAnnotationOptions {
-                        geometry(point)
-                        associatedFeatureId(pointAnnotation.featureIdentifier)
-                        anchor(ViewAnnotationAnchor.BOTTOM)
-                        offsetY((pointAnnotation.iconImageBitmap?.height!!).toInt())
-                        visible(false)
-                        selected(false)
+                if (item.type == "историческое") { // Лучше заменить на !isModern, но на сервере все isModern стоят false...
+                    viewAnnotationManager.addViewAnnotation(
+                        resId = R.layout.hist_icon_info,
+                        options = viewAnnotationOptions {
+                            geometry(point)
+                            associatedFeatureId(pointAnnotation.featureIdentifier)
+                            anchor(ViewAnnotationAnchor.BOTTOM)
+                            selected(false)
+                            allowOverlap(false)
+                            color(requireContext().getColor(R.color.bsu))
+                        },
+                        asyncInflater = asyncInflater
+                    ) { viewAnnotation ->
+                        viewAnnotation.visibility = View.GONE
+                        // calculate offsetY manually taking into account icon height only because of bottom anchoring
+                        viewAnnotationManager.updateViewAnnotation(
+                            viewAnnotation,
+                            viewAnnotationOptions {
+                                //offsetY(*(pointAnnotation.iconImageBitmap?.height!!).toInt())
+                            }
+                        )
+                        HistIconInfoBinding.bind(viewAnnotation).apply {
+                            histIconTitle.text = item.name
+                            histIconBtnSeeHistoricalInformation.setOnClickListener {
+                                // TODO вызвать onClick() из MainActivity
+                            }
+                            histIconBtnCreateRoute.setOnClickListener {
+                                // TODO вызвать onClick() из MainActivity
+                            }
+                            histIconBtnSee3dModel.setOnClickListener {
+                                // TODO вызвать onClick() из MainActivity
+                            }
+                        }
                     }
-                )
-                IconInfoBinding.bind(viewAnnotation).apply {
-                    iconTitle.text = item.name
-                    // TODO add list of structural objects with info (if needed)
+                } else {
+                    viewAnnotationManager.addViewAnnotation(
+                        resId = R.layout.modern_icon_info,
+                        options = viewAnnotationOptions {
+                            geometry(point)
+                            associatedFeatureId(pointAnnotation.featureIdentifier)
+                            anchor(ViewAnnotationAnchor.BOTTOM)
+                            selected(false)
+                            allowOverlap(false)
+                            color(requireContext().getColor(R.color.bsu))
+                        },
+                        asyncInflater = asyncInflater
+                    ) { viewAnnotation ->
+                        viewAnnotation.visibility = View.GONE
+                        // calculate offsetY manually taking into account icon height only because of bottom anchoring
+                        viewAnnotationManager.updateViewAnnotation(
+                            viewAnnotation,
+                            viewAnnotationOptions {
+                                //offsetY((pointAnnotation.iconImageBitmap?.height!!).toInt())
+                            }
+                        )
+                        ModernIconInfoBinding.bind(viewAnnotation).apply {
+                            modernIconTitle.text = item.name
+                            if (item.structuralObjects.isNullOrEmpty()) {
+                                iconEmptyDepartmentsLabel.isGone = false
+                                iconRecyclerView.isGone = true
+                            } else {
+                                iconEmptyDepartmentsLabel.isGone = true
+                                iconRecyclerView.isGone = false
+                                val recyclerView = iconRecyclerView
+                                recyclerView.layoutManager = GridLayoutManager(context, 1)
+                                val adapter = DepartmentsListAdapter(requireContext())
+                                recyclerView.adapter = adapter
+                                adapter.submitList(item.structuralObjects)
+                            }
+                        }
+                    }
                 }
                 pointAnnotationManager.addClickListener { clickedPoint ->
                     val iconView =
@@ -233,7 +304,6 @@ class MapFragment : Fragment(), KoinComponent {
                 }
             }
         }
-        val a = 5
     }
 
     private fun View.toggleViewVisibility() {
@@ -360,6 +430,8 @@ class MapFragment : Fragment(), KoinComponent {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _modernIconBinding = null
+        _histIconBinding = null
     }
 
     @Override

@@ -9,4 +9,5 @@
     <color name="gray">#808080</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bsu">#21386D</color>
+    <color name="bsu_light">#213F6D</color>
 </resources>

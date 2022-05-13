@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_width="wrap_content"
+    android:maxWidth="350dp"
+    android:layout_height="wrap_content"
+    android:maxHeight="250dp">
+
+    <TextView
+        android:id="@+id/hist_icon_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/building_blank"
+        android:textColor="@color/bsu"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:padding="2dp"
+        app:layout_constraintBottom_toTopOf="@id/hist_icon_btn_create_route"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/hist_icon_btn_see_historical_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:background="@drawable/button_bg"
+        android:text="@string/btn_see_historical_information"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        android:textColor="@color/white"
+        android:width="100dp"
+        android:height="50dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/hist_icon_btn_create_route"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hist_icon_title" />
+
+    <Button
+        android:id="@+id/hist_icon_btn_create_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:background="@drawable/button_bg"
+        android:text="@string/btn_route"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        android:textColor="@color/white"
+        android:width="100dp"
+        android:height="50dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/hist_icon_btn_see_3d_model"
+        app:layout_constraintStart_toEndOf="@id/hist_icon_btn_see_historical_information"
+        app:layout_constraintTop_toBottomOf="@id/hist_icon_title" />
+
+    <Button
+        android:id="@+id/hist_icon_btn_see_3d_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:background="@drawable/button_bg"
+        android:text="@string/btn_3d_model"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        android:textColor="@color/white"
+        android:width="100dp"
+        android:height="50dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/hist_icon_btn_create_route"
+        app:layout_constraintTop_toBottomOf="@id/hist_icon_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
