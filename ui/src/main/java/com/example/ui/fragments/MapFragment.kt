@@ -1,6 +1,7 @@
 package com.example.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,6 @@ import com.example.ui.R
 import com.example.ui.adapter.DepartmentsListAdapter
 import com.example.ui.databinding.HistBuildInfoBinding
 import com.example.ui.databinding.ModernBuildInfoBinding
-import com.example.ui.databinding.ModernDepartInfoBinding
 import com.example.ui.mapbox.LocationPermissionHelper
 import com.example.ui.viewModels.LoadState
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -74,6 +74,12 @@ class MapFragment : Fragment(), KoinComponent {
 
     private lateinit var locationPermissionHelper: LocationPermissionHelper
 
+    private lateinit var annotationApi : AnnotationPlugin
+    private lateinit var pointAnnotationManager : PointAnnotationManager
+    private lateinit var viewAnnotationManager : ViewAnnotationManager
+
+    private val asyncInflater by lazy { AsyncLayoutInflater(requireContext()) }
+
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
         mapView.getMapboxMap().setCamera(CameraOptions.Builder().bearing(it).build())
     }
@@ -110,6 +116,10 @@ class MapFragment : Fragment(), KoinComponent {
 
         mapView = binding.mapView
 
+        annotationApi = mapView.annotations
+        pointAnnotationManager = annotationApi.createPointAnnotationManager()
+        viewAnnotationManager = mapView.viewAnnotationManager
+
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS)
 
         mapView.getMapboxMap().loadStyleUri(
@@ -128,19 +138,34 @@ class MapFragment : Fragment(), KoinComponent {
 
         var dataList: List<BuildingItem> = emptyList()
 
-        var loadingDataFromDataBaseIsDone = false
-
         // Getting data from local database (if there are some)
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.dataFlow.collect {
+            repeatOnLifecycle(Lifecycle.State.STARTED) { // Periodically check the block below...
+                viewModel.dataFlow.collect { // If there are some changes at viewModel.dataFlow, then block below will run...
                     dataList = it
-                    if (!loadingDataFromDataBaseIsDone) {
-                        setMarkers(dataList)
-                        loadingDataFromDataBaseIsDone = true
-                    }
+                    setMarkers(dataList)
                 }
             }
+        }
+
+        pointAnnotationManager.addClickListener { clickedPoint -> // What will map do if user click on some icon's point
+            val iconView =
+                viewAnnotationManager.getViewAnnotationByFeatureId(clickedPoint.featureIdentifier)
+            iconView?.toggleViewVisibility()
+            val isSelected =
+                viewAnnotationManager.getViewAnnotationOptionsByFeatureId(clickedPoint.featureIdentifier)?.selected
+            if (iconView != null) {
+                viewAnnotationManager.updateViewAnnotation(
+                    iconView,
+                    viewAnnotationOptions {
+                        if (isSelected == true)
+                            selected(false)
+                        else
+                            selected(true)
+                    }
+                )
+            }
+            true
         }
 
         val timeLength = if (dataList.isEmpty()) // If no data in general (even in database)
@@ -161,7 +186,6 @@ class MapFragment : Fragment(), KoinComponent {
                         LoadState.SUCCESS -> {
                             createSnackbar(resources.getString(R.string.loadingSuccess),
                                 requireContext().getColor(R.color.black))
-                            setMarkers(dataList)
                         }
                         LoadState.INTERNET_ERROR -> {
                             createSnackbarWithReload(timeLength,
@@ -183,20 +207,11 @@ class MapFragment : Fragment(), KoinComponent {
         }
 
         if (savedInstanceState == null && viewModel.state.value == LoadState.IDLE) {
-            viewModel.loadData()
+            viewModel.loadData() // Loading new data about building from server if we are launching for the first time...
         }
     }
 
-    private lateinit var annotationApi : AnnotationPlugin
-    private lateinit var pointAnnotationManager : PointAnnotationManager
-    private lateinit var viewAnnotationManager : ViewAnnotationManager
-
-    private val asyncInflater by lazy { AsyncLayoutInflater(requireContext()) }
-
     private fun setMarkers(itemsList: List<BuildingItem>) {
-        annotationApi = mapView.annotations
-        pointAnnotationManager = annotationApi.createPointAnnotationManager()
-        viewAnnotationManager = mapView.viewAnnotationManager
         for (item in itemsList) {
             if (item.address == null)
                 continue
@@ -215,9 +230,13 @@ class MapFragment : Fragment(), KoinComponent {
             val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
                 .withPoint(point)
                 .withIconImage(ContextCompat.getDrawable(requireContext(), buildingType)?.toBitmap()!!)
+            if (isPointAlreadyExists(point)) {
+                continue // If point with such longitude and latitude already exists then just skip her
+            }
             val pointAnnotation = pointAnnotationManager.create(pointAnnotationOptions)
-            if (viewAnnotationManager.getViewAnnotationByFeatureId(pointAnnotation.featureIdentifier) == null) {
-                if (item.type == "историческое") { // Лучше заменить на !isModern, но на сервере все isModern стоят false...
+            Log.d("POINT_ANNOTATION_ADDED", "ADDED POINT WITH ID : " + pointAnnotation.featureIdentifier)
+            if (viewAnnotationManager.getViewAnnotationByFeatureId(pointAnnotation.featureIdentifier) == null) { // Add annotation of view of the point (if there is no yet)
+                if (item.type == "историческое") { // It's better to replace with !isModern, but on our server all isModern are set to false...
                     viewAnnotationManager.addViewAnnotation(
                         resId = R.layout.hist_build_info,
                         options = viewAnnotationOptions {
@@ -290,27 +309,16 @@ class MapFragment : Fragment(), KoinComponent {
                         }
                     }
                 }
-                pointAnnotationManager.addClickListener { clickedPoint ->
-                    val iconView =
-                        viewAnnotationManager.getViewAnnotationByFeatureId(clickedPoint.featureIdentifier)
-                    iconView?.toggleViewVisibility()
-                    val isSelected =
-                        viewAnnotationManager.getViewAnnotationOptionsByFeatureId(clickedPoint.featureIdentifier)?.selected
-                    if (iconView != null) {
-                        viewAnnotationManager.updateViewAnnotation(
-                            iconView,
-                            viewAnnotationOptions {
-                                if (isSelected == true)
-                                    selected(false)
-                                else
-                                    selected(true)
-                            }
-                        )
-                    }
-                    true
-                }
+                Log.d("VIEW_ANNOTATION_ADDED", "ADDED VIEW FOR POINT WITH ID : " + pointAnnotation.featureIdentifier)
             }
         }
+    }
+
+    private fun isPointAlreadyExists(point: Point) : Boolean {
+        // Returns true if point already exists at PointManager and false otherwise
+        return pointAnnotationManager.annotations.find {
+            it.geometry.longitude() == point.longitude() && it.geometry.latitude() == point.latitude()
+        } != null
     }
 
     private fun View.toggleViewVisibility() {

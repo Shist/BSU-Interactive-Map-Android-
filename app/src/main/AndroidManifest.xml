@@ -15,8 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BSUInteractiveMap"
         android:usesCleartextTraffic="true">
+        <!--Landscape orientation is temporarily disabled in the application (it will be developed  in the future)-->
         <activity
             android:name="com.example.ui.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

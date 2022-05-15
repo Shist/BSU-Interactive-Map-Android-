@@ -14,12 +14,16 @@
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/drawable/marker_dialog.xml" value="0.1625" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/activity_main.xml" value="0.2726449275362319" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/department_preview_info.xml" value="0.21818181061547676" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/hist_build_details.xml" value="0.2125" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/hist_build_info.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/hist_depart_details.xml" value="0.2557291666666667" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/hist_icon_info.xml" value="0.21818181061547676" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/historical_icon_info.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/icon_info.xml" value="0.19199999334161955" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/map.xml" value="0.11956521739130435" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/modern_build_info.xml" value="0.2125" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/modern_depart_details.xml" value="0.2557291666666667" />
+        <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/modern_depart_info.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/shist/AndroidStudioProjects/BSU_Interactive_Map_Android/ui/src/main/res/layout/modern_icon_info.xml" value="0.21818181061547676" />
       </map>
     </option>

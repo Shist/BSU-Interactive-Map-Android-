@@ -1,13 +1,14 @@
 package com.example.ui.fragments
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.example.domain.StructuralObjectItem
 import com.example.ui.R
 import com.example.ui.databinding.ModernDepartDetailsBinding
@@ -18,7 +19,7 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
 
     companion object {
         const val keyItemID = "itemID"
-        fun newInstance(department: StructuralObjectItem) = HistBuildingDetailsFragment().apply {
+        fun newInstance(department: StructuralObjectItem) = ModernDepartDetailsFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(keyItemID, department)
             }
@@ -43,7 +44,7 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
 
         val pageLogotypeButtonLink: Button = binding.btnLogotypeWithWebLink
         val pageTitle: TextView = binding.title
-        val pageImgSpinner: Spinner = binding.imgSpinner
+        val pageImgPager: ViewPager = binding.imgPager
         val pageTextBlock1: TextView = binding.infoBlock1
         val pageTitleHistReference: TextView = binding.histInfoTitle
         val pageTextBlock2: TextView = binding.infoBlock2
@@ -51,11 +52,13 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
         // TODO Add logotype as fg of button and link to website
         //pageLogotypeButtonLink
         pageTitle.text = department?.subdivision
-        // TODO Add images (with Picasso) of building to spinner
-        // pageImgSpinner
-        pageTextBlock1.text = department?.description?.substringBefore("ИСТОРИЧЕСКАЯ СПАРВКА")
+        // TODO Add images (with Picasso) of building to pager
+        // pageImgPager
+        pageTextBlock1.text = Html.fromHtml(department?.description?.
+            substringBefore("ИСТОРИЧЕСКАЯ СПРАВКА"), Html.FROM_HTML_MODE_LEGACY).toString()
         pageTitleHistReference.text = requireContext().resources.getString(R.string.historical_information)
-        pageTextBlock2.text = department?.description?.substringAfter("ИСТОРИЧЕСКАЯ СПРАВКА")
+        pageTextBlock2.text = Html.fromHtml(department?.description?.
+            substringAfter("ИСТОРИЧЕСКАЯ СПРАВКА"), Html.FROM_HTML_MODE_LEGACY).toString()
     }
 
     override fun onDestroyView() {

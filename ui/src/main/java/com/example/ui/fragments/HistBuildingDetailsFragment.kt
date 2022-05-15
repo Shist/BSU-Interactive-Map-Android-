@@ -1,12 +1,13 @@
 package com.example.ui.fragments
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.example.domain.BuildingItem
 import com.example.ui.databinding.HistBuildDetailsBinding
 import org.koin.core.component.KoinComponent
@@ -40,13 +41,13 @@ class HistBuildingDetailsFragment : Fragment(), KoinComponent {
         val building = arguments?.getParcelable<BuildingItem>(keyItemID)
 
         val pageTitle: TextView = binding.title
-        val pageImgSpinner: Spinner = binding.imgSpinner
+        val pageImgPager: ViewPager = binding.imgPager
         val pageText: TextView = binding.info
 
         pageTitle.text = building?.name
-        // TODO Add images (with Picasso) of building to spinner
-        // pageImgSpinner
-        pageText.text = building?.address?.description
+        // TODO Add images (with Picasso) of building to pager
+        // pageImgPager
+        pageText.text = Html.fromHtml(building?.address?.description, Html.FROM_HTML_MODE_LEGACY).toString()
     }
 
     override fun onDestroyView() {

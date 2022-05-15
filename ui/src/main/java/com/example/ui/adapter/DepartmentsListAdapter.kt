@@ -1,6 +1,5 @@
 package com.example.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -47,9 +46,6 @@ class DepartmentsListAdapter(activity: MainActivity) :
         holder.dpBtnSee3DModel.setOnClickListener {
             // TODO вызвать onClick() из MainActivity для 3D модели
         }
-        holder.dpBtnSeeDetails.setBackgroundColor(Color.parseColor("#21386D"))
-        holder.dpBtnCreateRoute.setBackgroundColor(Color.parseColor("#21386D"))
-        holder.dpBtnSee3DModel.setBackgroundColor(Color.parseColor("#21386D"))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
