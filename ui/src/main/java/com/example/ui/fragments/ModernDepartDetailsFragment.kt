@@ -13,6 +13,7 @@ import com.example.ui.R
 import com.example.ui.databinding.ModernDepartDetailsBinding
 import org.koin.core.component.KoinComponent
 
+// This is fragment inflates when user click button "Details" on one of departments of modern icon dialog window
 class ModernDepartDetailsFragment : Fragment(), KoinComponent {
 
     companion object {
@@ -40,12 +41,12 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
 
         val department = arguments?.getParcelable<StructuralObjectItem>(keyItemID)
 
-        val pageLogotypeButtonLink: Button = binding.modernDepartLogotypeAndLink
-        val pageTitle: TextView = binding.modernDepartTitle
-        val pageImgSpinner: Spinner = binding.modernDepartImgSpinner
-        val pageTextBlock1: TextView = binding.modernDepartAddressInfo
-        val pageTitleHistReference: TextView = binding.modernDepartHistInfoTitle
-        val pageTextBlock2: TextView = binding.modernDepartHistInfoText
+        val pageLogotypeButtonLink: Button = binding.btnLogotypeWithWebLink
+        val pageTitle: TextView = binding.title
+        val pageImgSpinner: Spinner = binding.imgSpinner
+        val pageTextBlock1: TextView = binding.infoBlock1
+        val pageTitleHistReference: TextView = binding.histInfoTitle
+        val pageTextBlock2: TextView = binding.infoBlock2
 
         // TODO Add logotype as fg of button and link to website
         //pageLogotypeButtonLink

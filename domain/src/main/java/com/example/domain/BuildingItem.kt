@@ -3,6 +3,9 @@ package com.example.domain
 import android.os.Parcel
 import android.os.Parcelable
 
+// This is domain data class. Actually this is copy of corresponding BuildingItemDB, but we
+// need it in order to hide the database implementation logic. It is considered good practice
+// to have separate classes for the database and classes for the domain.
 data class BuildingItem(
 
     val id: String,
@@ -21,7 +24,7 @@ data class BuildingItem(
 
     val markerPath: String?
 
-)  : Parcelable {
+)  : Parcelable { // We need to implement an interface Parcelable in order to save this object in Bundle (for example, while rotating phone)
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.createTypedArrayList(StructuralObjectItem),
@@ -59,7 +62,3 @@ data class BuildingItem(
         }
     }
 }
-
-// This is domain data class. Actually this is copy of corresponding BuildingItemDB, but we
-// need it in order to hide the database implementation logic. It is considered good practice
-// to have separate classes for the database and classes for the domain.

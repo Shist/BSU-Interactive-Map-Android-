@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/modern_depart_logotype_and_link"
+        android:id="@+id/btn_logotype_with_web_link"
         android:layout_width="90dp"
         android:layout_height="120dp"
         android:layout_gravity="left|top"
@@ -17,12 +17,12 @@
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/modern_depart_title"
-        app:layout_constraintBottom_toTopOf="@id/modern_depart_img_spinner" />
+        app:layout_constraintEnd_toStartOf="@id/title"
+        app:layout_constraintBottom_toTopOf="@id/img_spinner" />
 
 
     <TextView
-        android:id="@+id/modern_depart_title"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/building_blank"
@@ -33,13 +33,13 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:padding="2dp"
-        app:layout_constraintStart_toEndOf="@id/modern_depart_logotype_and_link"
+        app:layout_constraintStart_toEndOf="@id/btn_logotype_with_web_link"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/modern_depart_img_spinner" />
+        app:layout_constraintBottom_toTopOf="@id/img_spinner" />
 
     <Spinner
-        android:id="@+id/modern_depart_img_spinner"
+        android:id="@+id/img_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -47,12 +47,12 @@
         android:textAlignment="center"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modern_depart_title"
+        app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/modern_depart_address_info" />
+        app:layout_constraintBottom_toTopOf="@id/info_block_1" />
 
     <TextView
-        android:id="@+id/modern_depart_address_info"
+        android:id="@+id/info_block_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -64,12 +64,12 @@
         android:textStyle="normal"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modern_depart_img_spinner"
+        app:layout_constraintTop_toBottomOf="@id/img_spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/modern_depart_hist_info_title" />
+        app:layout_constraintBottom_toTopOf="@id/hist_info_title" />
 
     <TextView
-        android:id="@+id/modern_depart_hist_info_title"
+        android:id="@+id/hist_info_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -81,12 +81,12 @@
         android:textStyle="normal"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modern_depart_address_info"
+        app:layout_constraintTop_toBottomOf="@id/info_block_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/modern_depart_hist_info_text" />
+        app:layout_constraintBottom_toTopOf="@id/info_block_2" />
 
     <TextView
-        android:id="@+id/modern_depart_hist_info_text"
+        android:id="@+id/info_block_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -98,7 +98,7 @@
         android:textStyle="normal"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modern_depart_hist_info_title"
+        app:layout_constraintTop_toBottomOf="@id/hist_info_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

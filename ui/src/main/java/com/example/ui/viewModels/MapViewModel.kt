@@ -31,6 +31,7 @@ class MapViewModel (application: Application)
         return  networkInfo!=null && networkInfo.isConnected
     }
 
+    // This function tries to update old data to actual data if possible
     fun loadData() {
         viewModelScope.launch(Dispatchers.Main) {
             state.value = LoadState.LOADING

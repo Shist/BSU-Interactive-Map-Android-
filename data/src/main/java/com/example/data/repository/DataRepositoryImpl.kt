@@ -17,6 +17,7 @@ import com.example.domain.DataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+// This is implementation of repository based on its interface
 class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabase,
                          private val service: MapDataApi,
                          private val buildingItemJsonMapper: BuildingItemJsonMapper,
@@ -29,6 +30,7 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
                          private val iconItemDBMapper: IconItemDBMapper
 ) : DataRepository {
 
+    // This function checks if given item has ID or not
     private fun isItemWithID(itemJson: BuildingItemJson?): Boolean {
         return if (itemJson == null) {
             false
@@ -37,6 +39,7 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
         }
     }
 
+    // This function checks if given item is empty or not
     private fun isItemNotEmpty(item: BuildingItemDB?): Boolean {
         return if (item == null)
             false
@@ -49,6 +52,7 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
         }
     }
 
+    // This function is needed to get actual data from server
     override suspend fun loadData() {
         try {
             val items = service.getData()
@@ -62,6 +66,7 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
         }
     }
 
+    // This function return list of all items that are in local database
     override fun getItems(): Flow<List<BuildingItem>> {
         try {
             return buildingItemsDatabase.buildingItemsDao().getAllBuildingItems().map { list ->
@@ -73,4 +78,3 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
     }
 
 }
-

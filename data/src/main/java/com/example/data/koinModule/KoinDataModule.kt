@@ -20,6 +20,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import com.example.domain.DataRepository
 
+// Koin module is needed for initializing all variables and objects in classes
 val dataModule = module {
 
     single<DataRepository> {
@@ -37,8 +38,8 @@ val dataModule = module {
             Room.databaseBuilder(
                 context.applicationContext,
                 BuildingItemsDatabase::class.java, "bsumapDB"
-            )
-                //.addMigrations(MigrationDB.MIGRATION_1_2) <-- Use for DB structure changes
+            ) // Use code below and your Migration if you've made some changes in DB structure
+                //.addMigrations(MigrationDB.MIGRATION_1_2)
                 .build()
 
         buildDatabase(androidContext())

@@ -8,7 +8,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/department_preview_title"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/building_blank"
@@ -16,23 +16,23 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textAlignment="center"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/modern_icon_btn_create_route" />
+        app:layout_constraintBottom_toTopOf="@id/btn_create_route" />
 
     <Button
-        android:id="@+id/modern_icon_btn_see_details"
+        android:id="@+id/btn_see_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:textAlignment="center"
         android:background="@drawable/button_bg"
-        android:text="@string/btn_see_details"
+        android:text="@string/btn_see_historical_information"
         android:textSize="12sp"
         android:textStyle="normal"
         android:textColor="@color/white"
@@ -40,12 +40,12 @@
         android:height="50dp"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/department_preview_title"
-        app:layout_constraintEnd_toStartOf="@id/modern_icon_btn_create_route"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintEnd_toStartOf="@id/btn_create_route"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/modern_icon_btn_create_route"
+        android:id="@+id/btn_create_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -59,13 +59,13 @@
         android:width="100dp"
         android:height="50dp"
         android:padding="2dp"
-        app:layout_constraintStart_toEndOf="@id/modern_icon_btn_see_details"
-        app:layout_constraintTop_toBottomOf="@id/department_preview_title"
-        app:layout_constraintEnd_toStartOf="@id/modern_icon_btn_see_3d_model"
+        app:layout_constraintStart_toEndOf="@id/btn_see_details"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintEnd_toStartOf="@id/btn_see_3d_model"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
-        android:id="@+id/modern_icon_btn_see_3d_model"
+        android:id="@+id/btn_see_3d_model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -79,10 +79,9 @@
         android:width="100dp"
         android:height="50dp"
         android:padding="2dp"
-        app:layout_constraintStart_toEndOf="@id/modern_icon_btn_create_route"
-        app:layout_constraintTop_toBottomOf="@id/department_preview_title"
+        app:layout_constraintStart_toEndOf="@id/btn_create_route"
+        app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

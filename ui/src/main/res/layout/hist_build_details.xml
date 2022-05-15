@@ -4,17 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/modern_icon_title"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/building_blank"
         android:textColor="@color/bsu"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal|top"
+        android:gravity="center_horizontal|top"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -22,27 +22,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/icon_departments_label" />
+        app:layout_constraintBottom_toTopOf="@id/img_spinner" />
 
-    <TextView
-        android:id="@+id/icon_departments_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/departments_label_blank"
-        android:textColor="@color/bsu"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:padding="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modern_icon_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/icon_recycler_view" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/icon_recycler_view"
+    <Spinner
+        android:id="@+id/img_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -50,12 +33,12 @@
         android:textAlignment="center"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/icon_departments_label"
+        app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/info" />
 
     <TextView
-        android:id="@+id/icon_empty_departments_label"
+        android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -67,7 +50,7 @@
         android:textStyle="normal"
         android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/icon_departments_label"
+        app:layout_constraintTop_toBottomOf="@id/img_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

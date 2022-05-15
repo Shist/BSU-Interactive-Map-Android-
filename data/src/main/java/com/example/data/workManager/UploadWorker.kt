@@ -6,6 +6,7 @@ import com.example.domain.DataRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
+// This class is instruction that WorkManager should do every 24 hours
 class UploadWorker(appContext: Context, workerParams: WorkerParameters):
     CoroutineWorker(appContext, workerParams), KoinComponent {
 
@@ -13,7 +14,7 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters):
 
     override suspend fun doWork(): Result {
 
-        try {
+        try { // Update data periodically
             dataRepository.loadData()
         } catch (e: Throwable) {
             return Result.failure()

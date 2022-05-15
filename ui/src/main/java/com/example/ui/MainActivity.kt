@@ -14,8 +14,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var currItemId = "no_item_selected"
-
     private fun inflateFragment(f: Fragment, holder: Int, needAddBackStackOrNot: Boolean) {
         if (needAddBackStackOrNot) {
             supportFragmentManager.beginTransaction()

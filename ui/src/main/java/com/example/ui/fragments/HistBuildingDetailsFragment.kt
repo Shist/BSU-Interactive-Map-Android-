@@ -8,9 +8,10 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.domain.BuildingItem
-import com.example.ui.databinding.HistDepartDetailsBinding
+import com.example.ui.databinding.HistBuildDetailsBinding
 import org.koin.core.component.KoinComponent
 
+// This is fragment inflates when user click button "Details" on historical icon dialog window
 class HistBuildingDetailsFragment : Fragment(), KoinComponent {
 
     companion object {
@@ -22,14 +23,14 @@ class HistBuildingDetailsFragment : Fragment(), KoinComponent {
         }
     }
 
-    private var _binding: HistDepartDetailsBinding? = null
+    private var _binding: HistBuildDetailsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = HistDepartDetailsBinding.inflate(inflater, container, false)
+        _binding = HistBuildDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,9 +39,9 @@ class HistBuildingDetailsFragment : Fragment(), KoinComponent {
 
         val building = arguments?.getParcelable<BuildingItem>(keyItemID)
 
-        val pageTitle: TextView = binding.histDepartTitle
-        val pageImgSpinner: Spinner = binding.histDepartImgSpinner
-        val pageText: TextView = binding.histDepartAddressInfo
+        val pageTitle: TextView = binding.title
+        val pageImgSpinner: Spinner = binding.imgSpinner
+        val pageText: TextView = binding.info
 
         pageTitle.text = building?.name
         // TODO Add images (with Picasso) of building to spinner

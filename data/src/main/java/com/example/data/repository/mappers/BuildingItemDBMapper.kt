@@ -4,8 +4,8 @@ import com.example.data.roomDB.entities.buildingItem.BuildingItemDB
 import com.example.domain.BuildingItem
 import com.example.domain.IconItem
 import com.example.domain.StructuralObjectItem
-import java.lang.IndexOutOfBoundsException
 
+// This mapper converts a database entity to a domain entity
 class BuildingItemDBMapper {
 
     fun fromDBToDomain(item: BuildingItemDB?) : BuildingItem? {

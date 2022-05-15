@@ -25,8 +25,9 @@ import com.example.domain.BuildingItem
 import com.example.ui.MainActivity
 import com.example.ui.R
 import com.example.ui.adapter.DepartmentsListAdapter
-import com.example.ui.databinding.HistIconInfoBinding
-import com.example.ui.databinding.ModernIconInfoBinding
+import com.example.ui.databinding.HistBuildInfoBinding
+import com.example.ui.databinding.ModernBuildInfoBinding
+import com.example.ui.databinding.ModernDepartInfoBinding
 import com.example.ui.mapbox.LocationPermissionHelper
 import com.example.ui.viewModels.LoadState
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -53,18 +54,20 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
-
 class MapFragment : Fragment(), KoinComponent {
 
     private val viewModel: MapViewModel by inject()
 
+    // View of whole map
     private var _binding: MapBinding? = null
     private val binding get() = _binding!!
 
-    private var _modernIconBinding: ModernIconInfoBinding? = null
+    // View of dialog window emerging while clicking on icon of modern building
+    private var _modernIconBinding: ModernBuildInfoBinding? = null
     private val modernIconBinding get() = _modernIconBinding!!
 
-    private var _histIconBinding: HistIconInfoBinding? = null
+    // View of dialog window emerging while clicking on icon of historical building
+    private var _histIconBinding: HistBuildInfoBinding? = null
     private val histIconBinding get() = _histIconBinding!!
 
     private lateinit var mapView: MapView
@@ -97,8 +100,8 @@ class MapFragment : Fragment(), KoinComponent {
         savedInstanceState: Bundle?
     ): View {
         _binding = MapBinding.inflate(inflater, container, false)
-        _modernIconBinding = ModernIconInfoBinding.inflate(inflater, container, false)
-        _histIconBinding = HistIconInfoBinding.inflate(inflater, container, false)
+        _modernIconBinding = ModernBuildInfoBinding.inflate(inflater, container, false)
+        _histIconBinding = HistBuildInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -127,6 +130,7 @@ class MapFragment : Fragment(), KoinComponent {
 
         var loadingDataFromDataBaseIsDone = false
 
+        // Getting data from local database (if there are some)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.dataFlow.collect {
@@ -139,12 +143,13 @@ class MapFragment : Fragment(), KoinComponent {
             }
         }
 
-        val timeLength = if (dataList.isEmpty()) // If not data in general (even in database)
+        val timeLength = if (dataList.isEmpty()) // If no data in general (even in database)
             Snackbar.LENGTH_INDEFINITE
         else { // If no NEW data, but we have OLD data in database
             Snackbar.LENGTH_LONG
         }
 
+        // Trying to get actual data about buildings from server
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect {
@@ -195,7 +200,7 @@ class MapFragment : Fragment(), KoinComponent {
         for (item in itemsList) {
             if (item.address == null)
                 continue
-            // Здесь (в будущем) стоит добавить случаи для других типов зданий (дефолт - историческое)
+            // Here (in the future) it is worth adding cases for other types of buildings (default - historical)
             val buildingType = when (item.type) {
                 "историческое" -> R.drawable.ic_marker_historical
                 "учебное" -> R.drawable.ic_marker_uchebnoye
@@ -214,7 +219,7 @@ class MapFragment : Fragment(), KoinComponent {
             if (viewAnnotationManager.getViewAnnotationByFeatureId(pointAnnotation.featureIdentifier) == null) {
                 if (item.type == "историческое") { // Лучше заменить на !isModern, но на сервере все isModern стоят false...
                     viewAnnotationManager.addViewAnnotation(
-                        resId = R.layout.hist_icon_info,
+                        resId = R.layout.hist_build_info,
                         options = viewAnnotationOptions {
                             geometry(point)
                             associatedFeatureId(pointAnnotation.featureIdentifier)
@@ -233,23 +238,23 @@ class MapFragment : Fragment(), KoinComponent {
                                 //offsetY(*(pointAnnotation.iconImageBitmap?.height!!).toInt())
                             }
                         )
-                        HistIconInfoBinding.bind(viewAnnotation).apply {
-                            histIconTitle.text = item.name
-                            histIconBtnSeeHistoricalInformation.setOnClickListener {
+                        HistBuildInfoBinding.bind(viewAnnotation).apply {
+                            title.text = item.name
+                            btnSeeDetails.setOnClickListener {
                                 val myActivity = requireActivity() as MainActivity
                                 myActivity.onHistoricalBuildingClick(item)
                             }
-                            histIconBtnCreateRoute.setOnClickListener {
+                            btnCreateRoute.setOnClickListener {
                                 // TODO вызвать onClick() из MainActivity для маршрута
                             }
-                            histIconBtnSee3dModel.setOnClickListener {
+                            btnSee3dModel.setOnClickListener {
                                 // TODO вызвать onClick() из MainActivity для 3D модели
                             }
                         }
                     }
                 } else {
                     viewAnnotationManager.addViewAnnotation(
-                        resId = R.layout.modern_icon_info,
+                        resId = R.layout.modern_build_info,
                         options = viewAnnotationOptions {
                             geometry(point)
                             associatedFeatureId(pointAnnotation.featureIdentifier)
@@ -268,15 +273,15 @@ class MapFragment : Fragment(), KoinComponent {
                                 //offsetY((pointAnnotation.iconImageBitmap?.height!!).toInt())
                             }
                         )
-                        ModernIconInfoBinding.bind(viewAnnotation).apply {
-                            modernIconTitle.text = item.name
+                        ModernBuildInfoBinding.bind(viewAnnotation).apply {
+                            title.text = item.name
                             if (item.structuralObjects.isNullOrEmpty()) {
-                                iconEmptyDepartmentsLabel.isGone = false
-                                iconRecyclerView.isGone = true
+                                emptyDepartmentsLabel.isGone = false
+                                recyclerView.isGone = true
                             } else {
-                                iconEmptyDepartmentsLabel.isGone = true
-                                iconRecyclerView.isGone = false
-                                val recyclerView = iconRecyclerView
+                                emptyDepartmentsLabel.isGone = true
+                                recyclerView.isGone = false
+                                val recyclerView = recyclerView
                                 recyclerView.layoutManager = GridLayoutManager(context, 1)
                                 val adapter = DepartmentsListAdapter(requireActivity() as MainActivity)
                                 recyclerView.adapter = adapter

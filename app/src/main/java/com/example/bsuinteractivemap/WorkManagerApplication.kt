@@ -10,6 +10,8 @@ import org.koin.core.context.startKoin
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+// This part of the application runs in the background, even when the application is not active
+// This is necessary to update the data every 24 hours with WorkManager
 class WorkManagerApplication : Application() {
 
     override fun onCreate() {

@@ -6,6 +6,7 @@ import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
 import java.lang.ref.WeakReference
 
+// This class is needed to ask user his permission on location tracking
 class LocationPermissionHelper(val activity: WeakReference<Activity>) {
     private lateinit var permissionsManager: PermissionsManager
 

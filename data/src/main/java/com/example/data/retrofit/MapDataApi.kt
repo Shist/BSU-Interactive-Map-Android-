@@ -3,6 +3,7 @@ package com.example.data.retrofit
 import com.example.data.model.BuildingItemJson
 import retrofit2.http.GET
 
+// This interface is needed for getting data from server with needed link (list of links is below)
 interface MapDataApi{
 
     @GET("api/buildings/all")

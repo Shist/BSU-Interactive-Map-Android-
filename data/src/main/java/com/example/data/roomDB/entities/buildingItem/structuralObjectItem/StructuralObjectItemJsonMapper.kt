@@ -3,6 +3,7 @@ package com.example.data.roomDB.entities.buildingItem.structuralObjectItem
 import com.example.data.model.StructuralObjectItemJson
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemJsonMapper
 
+// This mapper converts a JSON entity to a database entity
 class StructuralObjectItemJsonMapper {
 
     fun fromJsonToRoomDB(itemJson: StructuralObjectItemJson?) : StructuralObjectItemDB?

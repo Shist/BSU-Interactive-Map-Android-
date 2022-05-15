@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.StructuralObjectItem
 import com.example.ui.MainActivity
-import com.example.ui.databinding.DepartmentPreviewInfoBinding
+import com.example.ui.databinding.ModernDepartInfoBinding
 
+// This class is needed to place list of structural object (of modern building) to RecycleView
 class DepartmentsListAdapter(activity: MainActivity) :
     ListAdapter<StructuralObjectItem, DepartmentsListAdapter.ItemViewHolder>(DepartmentsDiffCallback()) {
 
@@ -25,11 +26,11 @@ class DepartmentsListAdapter(activity: MainActivity) :
         val dpBtnSee3DModel: Button
         private val activity: MainActivity
 
-        constructor(oddBinding: DepartmentPreviewInfoBinding, activity: MainActivity): super(oddBinding.root) {
-            departmentPreviewTitle = oddBinding.departmentPreviewTitle
-            dpBtnSeeDetails = oddBinding.modernIconBtnSeeDetails
-            dpBtnCreateRoute = oddBinding.modernIconBtnCreateRoute
-            dpBtnSee3DModel = oddBinding.modernIconBtnSee3dModel
+        constructor(oddBinding: ModernDepartInfoBinding, activity: MainActivity): super(oddBinding.root) {
+            departmentPreviewTitle = oddBinding.title
+            dpBtnSeeDetails = oddBinding.btnSeeDetails
+            dpBtnCreateRoute = oddBinding.btnCreateRoute
+            dpBtnSee3DModel = oddBinding.btnSee3dModel
             this.activity = activity
         }
     }
@@ -52,7 +53,7 @@ class DepartmentsListAdapter(activity: MainActivity) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(DepartmentPreviewInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false), activity)
+        return ItemViewHolder(ModernDepartInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false), activity)
     }
 
 }
