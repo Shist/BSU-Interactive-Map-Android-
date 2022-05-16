@@ -25,11 +25,11 @@ class DepartmentsListAdapter(activity: MainActivity) :
         val dpBtnSee3DModel: Button
         private val activity: MainActivity
 
-        constructor(oddBinding: ModernDepartInfoBinding, activity: MainActivity): super(oddBinding.root) {
-            departmentPreviewTitle = oddBinding.title
-            dpBtnSeeDetails = oddBinding.btnSeeDetails
-            dpBtnCreateRoute = oddBinding.btnCreateRoute
-            dpBtnSee3DModel = oddBinding.btnSee3dModel
+        constructor(itemBinding: ModernDepartInfoBinding, activity: MainActivity): super(itemBinding.root) {
+            departmentPreviewTitle = itemBinding.title
+            dpBtnSeeDetails = itemBinding.btnSeeDetails
+            dpBtnCreateRoute = itemBinding.btnCreateRoute
+            dpBtnSee3DModel = itemBinding.btnSee3dModel
             this.activity = activity
         }
     }

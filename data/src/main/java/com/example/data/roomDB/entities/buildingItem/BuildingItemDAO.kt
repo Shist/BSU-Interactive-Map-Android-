@@ -2,6 +2,7 @@ package com.example.data.roomDB.entities.buildingItem
 
 import androidx.room.*
 import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemEntityDB
+import com.example.data.roomDB.entities.buildingItem.buildingItemImage.BuildingItemImageEntityDB
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemEntityDB
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemEntityDB
 import kotlinx.coroutines.flow.Flow
@@ -85,6 +86,39 @@ interface BuildingItemDAO {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBuildingItemImageEntityDB(buildingItemImageEntityDB: BuildingItemImageEntityDB): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBuildingItemImageEntitiesListDB(items: List<BuildingItemImageEntityDB>?): List<Long> {
+        val resultValue = emptyList<Long>().toMutableList()
+        if (items != null) {
+            for (bii: BuildingItemImageEntityDB in items) {
+                resultValue += insertBuildingItemImageEntityDB(bii)
+            }
+        }
+        return resultValue.toList()
+    }
+    @Update
+    suspend fun updateBuildingItemImageEntityDB(buildingItemImageEntityDB: BuildingItemImageEntityDB)
+    @Update
+    suspend fun updateBuildingItemImageEntitiesListDB(items: List<BuildingItemImageEntityDB>?) {
+        if (items != null) {
+            for (bii: BuildingItemImageEntityDB in items) {
+                updateBuildingItemImageEntityDB(bii)
+            }
+        }
+    }
+    @Delete
+    suspend fun deleteBuildingItemImageEntityDB(buildingItemImageEntityDB: BuildingItemImageEntityDB)
+    @Delete
+    suspend fun deleteBuildingItemImageEntitiesListDB(items: List<BuildingItemImageEntityDB>?) {
+        if (items != null) {
+            for (bii: BuildingItemImageEntityDB in items) {
+                deleteBuildingItemImageEntityDB(bii)
+            }
+        }
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAddressItemEntityDB(address: AddressItemEntityDB?): Long
     @Update
     suspend fun updateAddressItemEntityDB(address: AddressItemEntityDB?)
@@ -97,6 +131,7 @@ interface BuildingItemDAO {
     suspend fun insertOneBuildingItem(item: BuildingItemDB): Long {
         val resultValue = insertBuildingItemEntityDB(item.buildingItemEntityDB)
         insertStructuralObjectItemEntitiesListDB(item.structuralObjectEntities)
+        insertBuildingItemImageEntitiesListDB(item.buildingItemImageEntities)
         insertIconItemEntitiesListDB(item.iconEntities)
         insertAddressItemEntityDB(item.address)
         return resultValue
@@ -117,6 +152,7 @@ interface BuildingItemDAO {
     suspend fun updateOneBuildingItem(item: BuildingItemDB) {
         updateBuildingItemEntityDB(item.buildingItemEntityDB)
         updateStructuralObjectItemEntitiesListDB(item.structuralObjectEntities)
+        updateBuildingItemImageEntitiesListDB(item.buildingItemImageEntities)
         updateIconItemEntitiesListDB(item.iconEntities)
         updateAddressItemEntityDB(item.address)
     }
@@ -134,6 +170,7 @@ interface BuildingItemDAO {
     suspend fun deleteOneBuildingItem(item: BuildingItemDB, deleteChildLocations: Boolean) {
         if (deleteChildLocations) {
             deleteStructuralObjectItemEntitiesListDB(item.structuralObjectEntities)
+            deleteBuildingItemImageEntitiesListDB(item.buildingItemImageEntities)
             deleteIconItemEntitiesListDB(item.iconEntities)
             deleteAddressItemEntityDB(item.address)
         }

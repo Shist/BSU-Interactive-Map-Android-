@@ -1,13 +1,18 @@
 package com.example.data.retrofit
 
+import com.example.data.model.BuildingItemImageJson
 import com.example.data.model.BuildingItemJson
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 // This interface is needed for getting data from server with needed link (list of links is below)
 interface MapDataApi{
 
     @GET("api/buildings/all")
     suspend fun getData() : List<BuildingItemJson>?
+
+    @GET("api/building-photos")
+    suspend fun getImagesWithBuildingId(@Query("buildingId") buildingId: String) : List<BuildingItemImageJson>
 
 }
 

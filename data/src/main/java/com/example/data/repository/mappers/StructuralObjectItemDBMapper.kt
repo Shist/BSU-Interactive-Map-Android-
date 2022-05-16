@@ -1,22 +1,23 @@
 package com.example.data.repository.mappers
 
-import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemDB
+import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemEntityDB
+import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.iconItem.IconItemEntityDB
 import com.example.domain.StructuralObjectItem
 
 // This mapper converts a database entity to a domain entity
 class StructuralObjectItemDBMapper {
 
-    fun fromDBToDomain(item: StructuralObjectItemDB?) : StructuralObjectItem? {
-        return if (item == null) {
+    fun fromDBToDomain(itemSO: StructuralObjectItemEntityDB?, itemI: IconItemEntityDB?) : StructuralObjectItem? {
+        return if (itemSO == null) {
             null
         } else {
-            StructuralObjectItem(item.structuralItemsEntityDB.id,
-                item.structuralItemsEntityDB.subdivision,
-                item.structuralItemsEntityDB.description,
-                item.structuralItemsEntityDB.website,
-                item.structuralItemsEntityDB.buildingItemId,
-                item.structuralItemsEntityDB.category,
-                IconItemDBMapper().fromDBToDomain(item.icon))
+            StructuralObjectItem(itemSO.id,
+                itemSO.subdivision,
+                itemSO.description,
+                itemSO.website,
+                itemSO.buildingItemId,
+                itemSO.category,
+                IconItemDBMapper().fromDBToDomain(itemI))
         }
     }
 

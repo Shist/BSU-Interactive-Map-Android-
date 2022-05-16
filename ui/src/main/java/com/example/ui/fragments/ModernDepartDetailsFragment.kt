@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.domain.StructuralObjectItem
 import com.example.ui.R
+import com.example.ui.adapter.ModernImagesPagerAdapter
 import com.example.ui.databinding.ModernDepartDetailsBinding
 import com.squareup.picasso.Picasso
 import org.koin.core.component.KoinComponent
@@ -53,8 +54,9 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
         Picasso.get().load("http://map.bsu.by/drawable/structural_objects_logos/" +
                 department?.icon?.logoPath).into(pageImgLogotypeLink)
         pageTitle.text = department?.subdivision
+        val adapter = ModernImagesPagerAdapter(binding, requireContext())
+        pageImgPager.adapter = adapter
         // TODO Add images (with Picasso) of building to pager
-        // pageImgPager
         pageTextBlock1.text = Html.fromHtml(department?.description?.
             substringBefore("ИСТОРИЧЕСКАЯ СПРАВКА"), Html.FROM_HTML_MODE_LEGACY).toString()
         pageTitleHistReference.text = requireContext().resources.getString(R.string.historical_information)

@@ -12,6 +12,8 @@ data class BuildingItem(
 
     val structuralObjects: List<StructuralObjectItem?>?,
 
+    val imagesList: List<BuildingItemImage?>?,
+
     val inventoryUsrreNumber: String?,
 
     val name: String?,
@@ -28,6 +30,7 @@ data class BuildingItem(
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.createTypedArrayList(StructuralObjectItem),
+        parcel.createTypedArrayList(BuildingItemImage),
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,

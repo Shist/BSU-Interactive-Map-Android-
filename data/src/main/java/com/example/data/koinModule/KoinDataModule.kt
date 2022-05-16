@@ -10,6 +10,7 @@ import com.example.data.repository.mappers.StructuralObjectItemDBMapper
 import com.example.data.retrofit.RetrofitClient
 import com.example.data.retrofit.MapDataApi
 import com.example.data.roomDB.BuildingItemsDatabase
+import com.example.data.roomDB.MigrationDB
 import com.example.data.roomDB.entities.buildingItem.BuildingItemJsonMapper
 import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemJsonMapper
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemJsonMapper
@@ -39,7 +40,8 @@ val dataModule = module {
                 context.applicationContext,
                 BuildingItemsDatabase::class.java, "bsumapDB"
             ) // Use code below and your Migration if you've made some changes in DB structure
-                //.addMigrations(MigrationDB.MIGRATION_1_2)
+                .addMigrations(MigrationDB.MIGRATION_1_2)
+                //.addMigrations(MigrationDB.MIGRATION_2_3)
                 .build()
 
         buildDatabase(androidContext())

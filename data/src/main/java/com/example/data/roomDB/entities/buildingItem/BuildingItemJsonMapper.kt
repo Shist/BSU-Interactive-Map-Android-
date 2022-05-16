@@ -1,13 +1,15 @@
 package com.example.data.roomDB.entities.buildingItem
 
+import com.example.data.model.BuildingItemImageJson
 import com.example.data.model.BuildingItemJson
 import com.example.data.roomDB.entities.buildingItem.adressItem.AddressItemJsonMapper
+import com.example.data.roomDB.entities.buildingItem.buildingItemImage.BuildingItemImageJsonMapper
 import com.example.data.roomDB.entities.buildingItem.structuralObjectItem.StructuralObjectItemJsonMapper
 
 // This mapper converts a JSON entity to a database entity
 class BuildingItemJsonMapper {
 
-    fun fromJsonToRoomDB(itemJson: BuildingItemJson?) : BuildingItemDB?
+    fun fromJsonToRoomDB(itemJson: BuildingItemJson?, itemImagesJson: List<BuildingItemImageJson?>?) : BuildingItemDB?
     {
         if (itemJson == null) {
             return null
@@ -19,8 +21,7 @@ class BuildingItemJsonMapper {
             if (itemJson.type == null) {
                 type = null
                 markerPath = null
-            }
-            else {
+            } else {
                 type = itemJson.type!!.type
                 markerPath = itemJson.type!!.markerPath
             }
@@ -29,19 +30,30 @@ class BuildingItemJsonMapper {
 
             val structuralObjectsDB =
                 structuralObjectsJson?.map {
-                    StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!!.structuralItemsEntityDB }
+                    StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!!.structuralItemsEntityDB
+                }
+
+            val buildingItemImagesDB =
+                itemImagesJson?.map {
+                    BuildingItemImageJsonMapper().fromJsonToRoomDB(it, itemJson.id)!!
+                }
 
             val iconsDB =
                 structuralObjectsJson?.map {
-                    StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!!.icon }
+                    StructuralObjectItemJsonMapper().fromJsonToRoomDB(it)!!.icon
+                }
 
-            return BuildingItemDB(BuildingItemEntityDB(itemJson.id!!,
+            return BuildingItemDB(
+                BuildingItemEntityDB(
+                    itemJson.id!!,
                     itemJson.inventoryUsrreNumber,
                     itemJson.name,
                     itemJson.isModern.toBoolean(),
                     type,
-                    markerPath),
+                    markerPath
+                ),
                 structuralObjectsDB!!,
+                buildingItemImagesDB!!,
                 iconsDB!!,
                 AddressItemJsonMapper().fromJsonToRoomDB(itemJson.address, itemJson.id)!!
             )

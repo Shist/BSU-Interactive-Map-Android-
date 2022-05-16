@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import com.example.data.model.BuildingItemImageJson
 import com.example.data.model.BuildingItemJson
 import com.example.data.repository.mappers.AddressItemDBMapper
 import com.example.data.repository.mappers.BuildingItemDBMapper
@@ -57,7 +58,11 @@ class DataRepositoryImpl(private val buildingItemsDatabase: BuildingItemsDatabas
         try {
             val items = service.getData()
                 ?.filter { isItemWithID(it) } // Clean list from items with null id
-                ?.map { BuildingItemJsonMapper().fromJsonToRoomDB(it)!! }
+                ?.map {
+                    val itemsImages : List<BuildingItemImageJson> =
+                        service.getImagesWithBuildingId(it.id!!)
+                    BuildingItemJsonMapper().fromJsonToRoomDB(it, itemsImages)!!
+                }
                 ?.filter { isItemNotEmpty(it) } // Clean DB from items with empty data
             buildingItemsDatabase.buildingItemsDao().insertBuildingItemsList(items!!)
         } catch (e: Throwable) {
