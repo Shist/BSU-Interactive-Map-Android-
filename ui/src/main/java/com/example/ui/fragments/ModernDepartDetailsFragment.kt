@@ -56,14 +56,15 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
         Picasso.get().load("http://map.bsu.by/drawable/structural_objects_logos/" +
                 department?.icon?.logoPath).into(pageImgLogotypeLink)
         pageTitle.text = department?.subdivision
-        val adapter = ModernImagesPagerAdapter(binding, requireContext())
-        pageImgPager.adapter = adapter
+        val adapter = ModernImagesPagerAdapter(requireContext())
         if (imagesList != null) {
             for ((i, imageObject: BuildingItemImage?) in imagesList.withIndex()) {
                 adapter.setNewImageWithDescription(imageObject)
                 adapter.instantiateItem(binding.imgPager, i)
             }
         }
+        pageImgPager.adapter = adapter
+        pageImgPager.currentItem = 0
         pageText.text = Html.fromHtml(department?.description, Html.FROM_HTML_MODE_LEGACY).toString()
     }
 

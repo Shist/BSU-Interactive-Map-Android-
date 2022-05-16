@@ -1,6 +1,7 @@
 package com.example.ui.adapters
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,7 @@ class HistImagesPagerAdapter(histItemBinding: HistBuildDetailsBinding, _context:
         Picasso.get().load("http://map.bsu.by/buildings_images/historical_buildings/" +
                 currentImageObject?.imagePath).into(imageView)
         val textView = imgPagerItemBinding.info
-        textView.text = currentImageObject?.description
+        textView.text = Html.fromHtml(currentImageObject?.description, Html.FROM_HTML_MODE_LEGACY).toString()
         container.addView(imgPagerItemBinding.pagerView)
         return super.instantiateItem(container, position)
     }
