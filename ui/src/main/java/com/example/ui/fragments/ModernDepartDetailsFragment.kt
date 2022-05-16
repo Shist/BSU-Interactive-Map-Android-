@@ -5,13 +5,14 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.domain.StructuralObjectItem
 import com.example.ui.R
 import com.example.ui.databinding.ModernDepartDetailsBinding
+import com.squareup.picasso.Picasso
 import org.koin.core.component.KoinComponent
 
 // This is fragment inflates when user click button "Details" on one of departments of modern icon dialog window
@@ -42,15 +43,15 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
 
         val department = arguments?.getParcelable<StructuralObjectItem>(keyItemID)
 
-        val pageLogotypeButtonLink: Button = binding.btnLogotypeWithWebLink
+        val pageImgLogotypeLink: ImageView = binding.imgLogotypeWithWebLink
         val pageTitle: TextView = binding.title
         val pageImgPager: ViewPager = binding.imgPager
         val pageTextBlock1: TextView = binding.infoBlock1
         val pageTitleHistReference: TextView = binding.histInfoTitle
         val pageTextBlock2: TextView = binding.infoBlock2
 
-        // TODO Add logotype as fg of button and link to website
-        //pageLogotypeButtonLink
+        Picasso.get().load("http://map.bsu.by/drawable/structural_objects_logos/" +
+                department?.icon?.logoPath).into(pageImgLogotypeLink)
         pageTitle.text = department?.subdivision
         // TODO Add images (with Picasso) of building to pager
         // pageImgPager
