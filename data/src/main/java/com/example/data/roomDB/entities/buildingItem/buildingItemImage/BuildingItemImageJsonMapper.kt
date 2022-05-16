@@ -5,12 +5,12 @@ import com.example.data.model.BuildingItemImageJson
 // This mapper converts a JSON entity to a database entity
 class BuildingItemImageJsonMapper {
 
-    fun fromJsonToRoomDB(itemJson: BuildingItemImageJson?, buildingItemId: String?) : BuildingItemImageEntityDB?
+    fun fromJsonToRoomDB(itemJson: BuildingItemImageJson?) : BuildingItemImageEntityDB?
     {
         return if (itemJson == null) {
             null
         } else {
-            BuildingItemImageEntityDB(itemJson.buildingId!!,
+            BuildingItemImageEntityDB((itemJson.buildingId!! + "/" + itemJson.imagePath),
                 itemJson.description,
                 itemJson.imagePath,
                 itemJson.buildingId)

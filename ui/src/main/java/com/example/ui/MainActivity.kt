@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.domain.BuildingItem
+import com.example.domain.BuildingItemImage
 import com.example.domain.StructuralObjectItem
 import com.example.ui.databinding.ActivityMainBinding
 import com.example.ui.fragments.HistBuildingDetailsFragment
@@ -48,8 +49,8 @@ class MainActivity : AppCompatActivity() {
             R.id.fragment_container,true)
     }
 
-    fun onModernBuildingClick(department: StructuralObjectItem) {
-        inflateFragment(ModernDepartDetailsFragment.newInstance(department),
+    fun onModernBuildingClick(department: StructuralObjectItem, imagesList: List<BuildingItemImage?>?) {
+        inflateFragment(ModernDepartDetailsFragment.newInstance(department, imagesList),
             R.id.fragment_container,true)
     }
 

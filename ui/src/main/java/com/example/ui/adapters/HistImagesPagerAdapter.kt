@@ -1,4 +1,4 @@
-package com.example.ui.adapter
+package com.example.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.example.domain.BuildingItemImage
 import com.example.ui.databinding.HistBuildDetailsBinding
 import com.example.ui.databinding.ImgPagerItemBinding
+import com.squareup.picasso.Picasso
 
-class HistImagesPagerAdapter(histItemBinding: HistBuildDetailsBinding, _context: Context) :
-    PagerAdapter() {
+class HistImagesPagerAdapter(histItemBinding: HistBuildDetailsBinding, _context: Context) : PagerAdapter() {
 
     private var context : Context = _context
     private val layoutInflater : LayoutInflater = LayoutInflater.from(context)
@@ -22,8 +23,10 @@ class HistImagesPagerAdapter(histItemBinding: HistBuildDetailsBinding, _context:
     private var _imgPagerItemBinding: ImgPagerItemBinding? = null
     private val imgPagerItemBinding get() = _imgPagerItemBinding!!
 
+    private var currentImageObject: BuildingItemImage? = null
+
     init {
-        pager = histItemBinding.imgPager
+        histItemBinding.imgPager.also { pager = it }
     }
 
     override fun getCount(): Int {
@@ -34,10 +37,18 @@ class HistImagesPagerAdapter(histItemBinding: HistBuildDetailsBinding, _context:
         return view == `object`
     }
 
+    fun setNewImageWithDescription(imageObject: BuildingItemImage?) {
+        currentImageObject = imageObject
+    }
+
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         ImgPagerItemBinding.inflate(layoutInflater, container, false)
         val imageView = imgPagerItemBinding.pagerImg
-        container.addView(imageView)
+        Picasso.get().load("http://map.bsu.by/buildings_images/historical_buildings/" +
+                currentImageObject?.imagePath).into(imageView)
+        val textView = imgPagerItemBinding.info
+        textView.text = currentImageObject?.description
+        container.addView(imgPagerItemBinding.pagerView)
         return super.instantiateItem(container, position)
     }
 

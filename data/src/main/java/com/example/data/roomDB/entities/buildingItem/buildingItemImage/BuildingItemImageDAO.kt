@@ -27,7 +27,7 @@ interface BuildingItemImageDAO {
     @Query("SELECT * FROM buildingItemImages")
     fun getAllBuildingItemImages(): Flow<List<BuildingItemImageEntityDB>>
 
-    @Query("SELECT * FROM buildingItemImages WHERE buildingId = :neededId")
+    @Query("SELECT * FROM buildingItemImages WHERE id = :neededId")
     fun getBuildingItemImageById(neededId: String): Flow<BuildingItemImageEntityDB>
 
 }

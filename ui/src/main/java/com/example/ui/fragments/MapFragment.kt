@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.domain.BuildingItem
 import com.example.ui.MainActivity
 import com.example.ui.R
-import com.example.ui.adapter.DepartmentsListAdapter
+import com.example.ui.adapters.DepartmentsListAdapter
 import com.example.ui.databinding.HistBuildInfoBinding
 import com.example.ui.databinding.ModernBuildInfoBinding
 import com.example.ui.mapbox.LocationPermissionHelper
@@ -302,7 +302,7 @@ class MapFragment : Fragment(), KoinComponent {
                                 recyclerView.isGone = false
                                 val recyclerView = recyclerView
                                 recyclerView.layoutManager = GridLayoutManager(context, 1)
-                                val adapter = DepartmentsListAdapter(requireActivity() as MainActivity)
+                                val adapter = DepartmentsListAdapter(item.imagesList, requireActivity() as MainActivity)
                                 recyclerView.adapter = adapter
                                 adapter.submitList(item.structuralObjects)
                             }

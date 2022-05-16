@@ -9,7 +9,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.domain.BuildingItem
-import com.example.ui.adapter.HistImagesPagerAdapter
+import com.example.domain.BuildingItemImage
+import com.example.ui.adapters.HistImagesPagerAdapter
 import com.example.ui.databinding.HistBuildDetailsBinding
 import org.koin.core.component.KoinComponent
 
@@ -17,10 +18,10 @@ import org.koin.core.component.KoinComponent
 class HistBuildingDetailsFragment : Fragment(), KoinComponent {
 
     companion object {
-        const val keyItemID = "itemID"
+        const val buildingID = "buildingID"
         fun newInstance(building: BuildingItem) = HistBuildingDetailsFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(keyItemID, building)
+                putParcelable(buildingID, building)
             }
         }
     }
@@ -39,16 +40,20 @@ class HistBuildingDetailsFragment : Fragment(), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val building = arguments?.getParcelable<BuildingItem>(keyItemID)
+        val building = arguments?.getParcelable<BuildingItem>(buildingID)
 
         val pageTitle: TextView = binding.title
         val pageImgPager: ViewPager = binding.imgPager
         val pageText: TextView = binding.info
-
         pageTitle.text = building?.name
         val adapter = HistImagesPagerAdapter(binding, requireContext())
         pageImgPager.adapter = adapter
-        // TODO Add images (with Picasso) of building to pager
+        if (building?.imagesList != null) {
+            for ((i, imageObject: BuildingItemImage?) in building.imagesList!!.withIndex()) {
+                adapter.setNewImageWithDescription(imageObject)
+                adapter.instantiateItem(binding.imgPager, i)
+            }
+        }
         pageText.text = Html.fromHtml(building?.address?.description, Html.FROM_HTML_MODE_LEGACY).toString()
     }
 

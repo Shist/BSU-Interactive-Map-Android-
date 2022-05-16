@@ -16,7 +16,6 @@
     <string name="btn_route">Route</string>
     <string name="btn_3d_model">3D Model</string>
     <string name="btn_see_historical_information">Historical information</string>
-    <string name="historical_information">History reference</string>
     <string name="logotype">Logotype</string>
     <string name="building_img">Image of building</string>
 </resources>

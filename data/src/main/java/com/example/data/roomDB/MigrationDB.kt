@@ -6,7 +6,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 object MigrationDB {
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            // HERE YOU CAN CHANGE DATABASE STRUCTURE
+            // HERE YOU CAN CHANGE DATABASE STRUCTURE (don't forget to add it at KoinModule)
             db.execSQL("")
         }
     }

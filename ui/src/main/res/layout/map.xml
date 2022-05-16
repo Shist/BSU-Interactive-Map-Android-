@@ -8,10 +8,14 @@
 
     <com.mapbox.maps.MapView
         android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         mapbox:mapbox_cameraTargetLng="27.547"
         mapbox:mapbox_cameraTargetLat="53.894"
-        mapbox:mapbox_cameraZoom="10.0"/>
+        mapbox:mapbox_cameraZoom="10.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

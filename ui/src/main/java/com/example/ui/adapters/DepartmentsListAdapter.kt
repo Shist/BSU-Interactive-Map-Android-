@@ -1,4 +1,4 @@
-package com.example.ui.adapter
+package com.example.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,14 +7,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.BuildingItemImage
 import com.example.domain.StructuralObjectItem
 import com.example.ui.MainActivity
 import com.example.ui.databinding.ModernDepartInfoBinding
 
 // This class is needed to place list of structural object (of modern building) to RecycleView
-class DepartmentsListAdapter(activity: MainActivity) :
+class DepartmentsListAdapter(imagesList: List<BuildingItemImage?>?, activity: MainActivity) :
     ListAdapter<StructuralObjectItem, DepartmentsListAdapter.ItemViewHolder>(DepartmentsDiffCallback()) {
 
+    private val imageList: List<BuildingItemImage?>? = imagesList
     private val activity = activity
 
     class ItemViewHolder: RecyclerView.ViewHolder {
@@ -38,7 +40,7 @@ class DepartmentsListAdapter(activity: MainActivity) :
         val departmentObject = getItem(position)
         holder.departmentPreviewTitle.text = departmentObject.subdivision
         holder.dpBtnSeeDetails.setOnClickListener {
-            activity.onModernBuildingClick(departmentObject)
+            activity.onModernBuildingClick(departmentObject, imageList)
         }
         holder.dpBtnCreateRoute.setOnClickListener {
             // TODO вызвать onClick() из MainActivity для маршрута

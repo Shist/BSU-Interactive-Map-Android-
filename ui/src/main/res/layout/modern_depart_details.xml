@@ -8,8 +8,12 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -44,12 +48,12 @@
                 app:layout_constraintStart_toEndOf="@id/img_logotype_with_web_link"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/info_block_1" />
+                app:layout_constraintBottom_toTopOf="@id/img_pager" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/img_pager"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textAlignment="center"
@@ -57,10 +61,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/info_block_1" />
+                app:layout_constraintBottom_toTopOf="@id/info" />
 
             <TextView
-                android:id="@+id/info_block_1"
+                android:id="@+id/info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -72,41 +76,7 @@
                 android:textStyle="normal"
                 android:padding="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/hist_info_title" />
-
-            <TextView
-                android:id="@+id/hist_info_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:text="@string/historical_information"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="normal"
-                android:padding="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/info_block_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/info_block_2" />
-
-            <TextView
-                android:id="@+id/info_block_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:text="@string/no_data_at_db_label_blank"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                android:padding="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hist_info_title"
+                app:layout_constraintTop_toBottomOf="@id/img_pager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
 

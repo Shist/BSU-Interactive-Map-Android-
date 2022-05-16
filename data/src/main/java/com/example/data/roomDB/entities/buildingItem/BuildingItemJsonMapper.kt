@@ -35,7 +35,7 @@ class BuildingItemJsonMapper {
 
             val buildingItemImagesDB =
                 itemImagesJson?.map {
-                    BuildingItemImageJsonMapper().fromJsonToRoomDB(it, itemJson.id)!!
+                    BuildingItemImageJsonMapper().fromJsonToRoomDB(it)!!
                 }
 
             val iconsDB =

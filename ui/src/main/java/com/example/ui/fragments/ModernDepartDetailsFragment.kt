@@ -9,9 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.example.domain.BuildingItemImage
 import com.example.domain.StructuralObjectItem
-import com.example.ui.R
-import com.example.ui.adapter.ModernImagesPagerAdapter
+import com.example.ui.adapters.ModernImagesPagerAdapter
 import com.example.ui.databinding.ModernDepartDetailsBinding
 import com.squareup.picasso.Picasso
 import org.koin.core.component.KoinComponent
@@ -20,10 +20,13 @@ import org.koin.core.component.KoinComponent
 class ModernDepartDetailsFragment : Fragment(), KoinComponent {
 
     companion object {
-        const val keyItemID = "itemID"
-        fun newInstance(department: StructuralObjectItem) = ModernDepartDetailsFragment().apply {
+        const val departId = "departId"
+        const val imagesListId = "imagesListId"
+        fun newInstance(department: StructuralObjectItem, imagesList: List<BuildingItemImage?>?)
+        = ModernDepartDetailsFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(keyItemID, department)
+                putParcelable(departId, department)
+                putParcelableArrayList(imagesListId, ArrayList(imagesList?.toMutableList() ?: emptyList()))
             }
         }
     }
@@ -42,26 +45,26 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val department = arguments?.getParcelable<StructuralObjectItem>(keyItemID)
+        val department = arguments?.getParcelable<StructuralObjectItem>(departId)
+        val imagesList = arguments?.getParcelableArrayList<BuildingItemImage>(imagesListId)?.toList()
 
         val pageImgLogotypeLink: ImageView = binding.imgLogotypeWithWebLink
         val pageTitle: TextView = binding.title
         val pageImgPager: ViewPager = binding.imgPager
-        val pageTextBlock1: TextView = binding.infoBlock1
-        val pageTitleHistReference: TextView = binding.histInfoTitle
-        val pageTextBlock2: TextView = binding.infoBlock2
+        val pageText: TextView = binding.info
 
         Picasso.get().load("http://map.bsu.by/drawable/structural_objects_logos/" +
                 department?.icon?.logoPath).into(pageImgLogotypeLink)
         pageTitle.text = department?.subdivision
         val adapter = ModernImagesPagerAdapter(binding, requireContext())
         pageImgPager.adapter = adapter
-        // TODO Add images (with Picasso) of building to pager
-        pageTextBlock1.text = Html.fromHtml(department?.description?.
-            substringBefore("ИСТОРИЧЕСКАЯ СПРАВКА"), Html.FROM_HTML_MODE_LEGACY).toString()
-        pageTitleHistReference.text = requireContext().resources.getString(R.string.historical_information)
-        pageTextBlock2.text = Html.fromHtml(department?.description?.
-            substringAfter("ИСТОРИЧЕСКАЯ СПРАВКА"), Html.FROM_HTML_MODE_LEGACY).toString()
+        if (imagesList != null) {
+            for ((i, imageObject: BuildingItemImage?) in imagesList.withIndex()) {
+                adapter.setNewImageWithDescription(imageObject)
+                adapter.instantiateItem(binding.imgPager, i)
+            }
+        }
+        pageText.text = Html.fromHtml(department?.description, Html.FROM_HTML_MODE_LEGACY).toString()
     }
 
     override fun onDestroyView() {
