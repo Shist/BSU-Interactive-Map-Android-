@@ -261,7 +261,7 @@ class MapFragment : Fragment(), KoinComponent {
                             title.text = item.name
                             btnSeeDetails.setOnClickListener {
                                 val myActivity = requireActivity() as MainActivity
-                                myActivity.onHistoricalBuildingClick(item)
+                                myActivity.onHistoricalBuildingClick(item, item.imagesList)
                             }
                             btnCreateRoute.setOnClickListener {
                                 // TODO вызвать onClick() из MainActivity для маршрута

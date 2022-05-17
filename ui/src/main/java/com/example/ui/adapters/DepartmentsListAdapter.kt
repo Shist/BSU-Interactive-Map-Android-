@@ -13,26 +13,26 @@ import com.example.ui.MainActivity
 import com.example.ui.databinding.ModernDepartInfoBinding
 
 // This class is needed to place list of structural object (of modern building) to RecycleView
-class DepartmentsListAdapter(imagesList: List<BuildingItemImage?>?, activity: MainActivity) :
+class DepartmentsListAdapter(imagesList: List<BuildingItemImage?>?,
+                             private val activity: MainActivity
+) :
     ListAdapter<StructuralObjectItem, DepartmentsListAdapter.ItemViewHolder>(DepartmentsDiffCallback()) {
 
     private val imageList: List<BuildingItemImage?>? = imagesList
-    private val activity = activity
 
-    class ItemViewHolder: RecyclerView.ViewHolder {
+    class ItemViewHolder(itemBinding: ModernDepartInfoBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
 
         val departmentPreviewTitle: TextView
         val dpBtnSeeDetails: Button
         val dpBtnCreateRoute: Button
         val dpBtnSee3DModel: Button
-        private val activity: MainActivity
 
-        constructor(itemBinding: ModernDepartInfoBinding, activity: MainActivity): super(itemBinding.root) {
+        init {
             departmentPreviewTitle = itemBinding.title
             dpBtnSeeDetails = itemBinding.btnSeeDetails
             dpBtnCreateRoute = itemBinding.btnCreateRoute
             dpBtnSee3DModel = itemBinding.btnSee3dModel
-            this.activity = activity
         }
     }
 
@@ -51,7 +51,7 @@ class DepartmentsListAdapter(imagesList: List<BuildingItemImage?>?, activity: Ma
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(ModernDepartInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false), activity)
+        return ItemViewHolder(ModernDepartInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
 }

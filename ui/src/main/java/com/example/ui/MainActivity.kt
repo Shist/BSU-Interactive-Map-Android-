@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun onHistoricalBuildingClick(building: BuildingItem) {
-        inflateFragment(HistBuildingDetailsFragment.newInstance(building),
+    fun onHistoricalBuildingClick(building: BuildingItem, imagesList: List<BuildingItemImage?>?) {
+        inflateFragment(HistBuildingDetailsFragment.newInstance(building, imagesList),
             R.id.fragment_container,true)
     }
 

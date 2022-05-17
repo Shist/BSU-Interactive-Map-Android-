@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.domain.BuildingItemImage
 import com.example.domain.StructuralObjectItem
-import com.example.ui.adapters.ModernImagesPagerAdapter
+import com.example.ui.adapters.ImagesPagerAdapter
 import com.example.ui.databinding.ModernDepartDetailsBinding
 import com.squareup.picasso.Picasso
 import org.koin.core.component.KoinComponent
@@ -50,21 +50,18 @@ class ModernDepartDetailsFragment : Fragment(), KoinComponent {
 
         val pageImgLogotypeLink: ImageView = binding.imgLogotypeWithWebLink
         val pageTitle: TextView = binding.title
-        val pageImgPager: ViewPager = binding.imgPager
+        val pageImgPager: ViewPager2 = binding.imgPager
         val pageText: TextView = binding.info
 
         Picasso.get().load("http://map.bsu.by/drawable/structural_objects_logos/" +
                 department?.icon?.logoPath).into(pageImgLogotypeLink)
-        pageTitle.text = department?.subdivision
-        val adapter = ModernImagesPagerAdapter(requireContext())
-        if (imagesList != null) {
-            for ((i, imageObject: BuildingItemImage?) in imagesList.withIndex()) {
-                adapter.setNewImageWithDescription(imageObject)
-                adapter.instantiateItem(binding.imgPager, i)
-            }
-        }
+
+        pageTitle.text = Html.fromHtml(department?.subdivision, Html.FROM_HTML_MODE_LEGACY).toString()
+
+        val adapter = ImagesPagerAdapter(true)
+        adapter.submitList(imagesList)
         pageImgPager.adapter = adapter
-        pageImgPager.currentItem = 0
+
         pageText.text = Html.fromHtml(department?.description, Html.FROM_HTML_MODE_LEGACY).toString()
     }
 

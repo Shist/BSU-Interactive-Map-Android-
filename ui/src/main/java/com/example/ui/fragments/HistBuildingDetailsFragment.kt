@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.domain.BuildingItem
 import com.example.domain.BuildingItemImage
-import com.example.ui.adapters.HistImagesPagerAdapter
+import com.example.ui.adapters.ImagesPagerAdapter
 import com.example.ui.databinding.HistBuildDetailsBinding
 import org.koin.core.component.KoinComponent
 
@@ -19,9 +19,12 @@ class HistBuildingDetailsFragment : Fragment(), KoinComponent {
 
     companion object {
         const val buildingID = "buildingID"
-        fun newInstance(building: BuildingItem) = HistBuildingDetailsFragment().apply {
+        const val imagesListId = "imagesListId"
+        fun newInstance(building: BuildingItem, imagesList: List<BuildingItemImage?>?)
+        = HistBuildingDetailsFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(buildingID, building)
+                putParcelableArrayList(ModernDepartDetailsFragment.imagesListId, ArrayList(imagesList?.toMutableList() ?: emptyList()))
             }
         }
     }
@@ -41,19 +44,18 @@ class HistBuildingDetailsFragment : Fragment(), KoinComponent {
         super.onViewCreated(view, savedInstanceState)
 
         val building = arguments?.getParcelable<BuildingItem>(buildingID)
+        val imagesList = arguments?.getParcelableArrayList<BuildingItemImage>(ModernDepartDetailsFragment.imagesListId)?.toList()
 
         val pageTitle: TextView = binding.title
-        val pageImgPager: ViewPager = binding.imgPager
+        val pageImgPager: ViewPager2 = binding.imgPager
         val pageText: TextView = binding.info
-        pageTitle.text = building?.name
-        val adapter = HistImagesPagerAdapter(binding, requireContext())
+
+        pageTitle.text = Html.fromHtml(building?.name, Html.FROM_HTML_MODE_LEGACY).toString()
+
+        val adapter = ImagesPagerAdapter(false)
+        adapter.submitList(imagesList)
         pageImgPager.adapter = adapter
-        if (building?.imagesList != null) {
-            for ((i, imageObject: BuildingItemImage?) in building.imagesList!!.withIndex()) {
-                adapter.setNewImageWithDescription(imageObject)
-                adapter.instantiateItem(binding.imgPager, i)
-            }
-        }
+
         pageText.text = Html.fromHtml(building?.address?.description, Html.FROM_HTML_MODE_LEGACY).toString()
     }
 
