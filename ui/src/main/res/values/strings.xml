@@ -18,4 +18,5 @@
     <string name="btn_see_historical_information">Historical information</string>
     <string name="logotype">Logotype</string>
     <string name="building_img">Image of building</string>
+    <string name="future_feature">This feature will be developed in future</string>
 </resources>

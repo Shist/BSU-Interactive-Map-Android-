@@ -264,9 +264,13 @@ class MapFragment : Fragment(), KoinComponent {
                                 myActivity.onHistoricalBuildingClick(item, item.imagesList)
                             }
                             btnCreateRoute.setOnClickListener {
+                                createSnackbar(resources.getString(R.string.future_feature),
+                                    requireContext().getColor(R.color.black))
                                 // TODO вызвать onClick() из MainActivity для маршрута
                             }
                             btnSee3dModel.setOnClickListener {
+                                createSnackbar(resources.getString(R.string.future_feature),
+                                    requireContext().getColor(R.color.black))
                                 // TODO вызвать onClick() из MainActivity для 3D модели
                             }
                         }
@@ -302,7 +306,10 @@ class MapFragment : Fragment(), KoinComponent {
                                 recyclerView.isGone = false
                                 val recyclerView = recyclerView
                                 recyclerView.layoutManager = GridLayoutManager(context, 1)
-                                val adapter = DepartmentsListAdapter(item.imagesList, requireActivity() as MainActivity)
+                                val adapter = DepartmentsListAdapter(item.imagesList,
+                                    requireActivity() as MainActivity,
+                                    binding,
+                                    requireContext())
                                 recyclerView.adapter = adapter
                                 adapter.submitList(item.structuralObjects)
                             }

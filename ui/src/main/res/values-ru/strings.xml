@@ -17,4 +17,5 @@
     <string name="btn_see_historical_information">Исторические сведения</string>
     <string name="logotype">Логотип</string>
     <string name="building_img">Изображение достопримечательности</string>
+    <string name="future_feature">Эта функция будет разработана в будущем</string>
 </resources>
