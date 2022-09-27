@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.bsuinteractivemap">
+    package="com.shist.bsuinteractivemap">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <application
-        android:name="com.example.bsuinteractivemap.WorkManagerApplication"
+        android:name="com.shist.bsuinteractivemap.WorkManagerApplication"
         android:icon="@mipmap/ic_launcher_bsu"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_bsu_round"
@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true">
         <!--Landscape orientation is temporarily disabled in the application (it will be developed  in the future)-->
         <activity
-            android:name="com.example.ui.MainActivity"
+            android:name="com.shist.ui.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
