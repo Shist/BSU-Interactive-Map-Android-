@@ -4,7 +4,7 @@
 ### Image demo
 ![Here could be image, but your Internet is too slow...](https://github.com/Shist/BSU-Interactive-Map-Android-/blob/android/demo/BG.png)
 ### Video demo
-
+[Here will be video in future]
 ---
 ## Technologies used in the project
 - Kotlin
@@ -19,6 +19,12 @@
 - OpenStreetMap
 - Mapbox
 - Json
+---
+## Project's modules
+- app
+- data
+- domain
+- ui
 ---
 ### Additional information about project
 #### Keywords: DEVELOPMENT, ANDROID, KOTLIN, MOBILE APP, WORK MANAGER, RETROFIT, ROOM DB, KOIN, OPENSTRREETMAP, MAPBOX.
