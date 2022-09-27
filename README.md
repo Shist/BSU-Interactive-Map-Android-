@@ -9,7 +9,7 @@
 - WorkManager
 - Retrofit
 - Okhttp
-- Gson
+- Json
 - RoomDB
 - Koin
 - OpenStreetMap
